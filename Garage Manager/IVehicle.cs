@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Garage_Manager
 {
-    internal interface IHandler
+    internal interface IVehicle
     {
-
+        bool CompareTo<T>(T t) where T : IVehicle;
+        internal VehicleInformation GetVehicleInformation();
     }
 }

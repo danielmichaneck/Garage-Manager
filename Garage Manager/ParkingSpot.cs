@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Garage_Manager
 {
-    internal interface IVehicleCanPark
+    internal class ParkingSpot : IParkingSpot
     {
     }
 }

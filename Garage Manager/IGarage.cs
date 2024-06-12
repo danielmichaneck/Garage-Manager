@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Garage_Manager
 {
-    internal interface IGarage
+    internal interface IGarage<T>
     {
+        internal bool Add(T add);
+        internal bool Remove(T remove);
     }
 }

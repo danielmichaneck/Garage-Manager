@@ -8,8 +8,12 @@ namespace Garage_Manager
 {
     internal class Manager
     {
+        private IHandler _handler;
+
         public void ManageGarage()
         {
+            _handler = new Handler();
+
 
         }
     }

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Garage_Manager
 {
-    internal interface IGarage<T>
+    internal interface IGarage<T> : IEnumerable<T>
     {
-        internal bool Add(T add);
-        internal bool Remove(T remove);
+        public bool Add(T add);
+        internal bool Remove(string licenseNumber);
     }
 }

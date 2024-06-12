@@ -13,7 +13,5 @@ namespace Garage_Manager
         {
             _vehicleInformation.SetAdditionalProperties("Number of seats: 5");
         }
-
-        
     }
 }

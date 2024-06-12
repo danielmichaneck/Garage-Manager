@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Garage_Manager
 {
-    internal class Garage<T> : IGarage<T>, IEnumerable<T> where T : IVehicle
+    internal class Garage<T> : IGarage<T> where T : IVehicle
     {
         private T[] _list;
         private bool[] _occupied;
@@ -32,11 +32,11 @@ namespace Garage_Manager
             return false;
         }
 
-        bool IGarage<T>.Remove(T remove)
+        bool IGarage<T>.Remove(string licenseNumber)
         {
             for (int i = 0; i < _list.Length; i++)
             {
-                if (_occupied[i] && remove.CompareTo(_list[i]))
+                if (_occupied[i] && _list[i].GetVehicleInformation()._licenseNumber == licenseNumber)
                 {
                     _occupied[i] = false;
                     return true;
@@ -47,8 +47,10 @@ namespace Garage_Manager
 
         public IEnumerator<T> GetEnumerator()
         {
-            for (int i = 0; i < _list.Length; i++)
+            for (int i = 0; i < _list.Length - 1; i++)
+            {
                 yield return _list[i];
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()

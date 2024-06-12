@@ -39,5 +39,21 @@ namespace Garage_Manager
         }
 
         public string[]? GetAdditionalProperties() => _additionalProperties;
+
+        public override string ToString()
+        {
+            var result = new StringBuilder(new string($"License number: {_licenseNumber} " + Environment.NewLine + 
+                $"Color: {_color}" + Environment.NewLine +
+                $"Size as a quarter of a parking space: {_quarterSize}" + Environment.NewLine +
+                $"Number of wheels: {_numberOfWheels}" + Environment.NewLine));
+            if (_additionalProperties is not null)
+            {
+                for (int i = 0; i < _additionalProperties.Length; i++)
+                {
+                    result.Append(_additionalProperties[i] + Environment.NewLine);
+                }
+            }
+            return result.ToString();
+        }
     }
 }

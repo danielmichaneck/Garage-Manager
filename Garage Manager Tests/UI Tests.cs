@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -50,16 +51,49 @@ namespace Garage_Manager_Tests
         public void UI_Print_Message_With_Member_Action()
         {
             // Arrange
-            Action<string> action = Console.WriteLine;
             StringWriter consoleOutput = new();
             string expected = Message.Start;
             Console.SetOut(consoleOutput);
 
             // Act
-            UserInterface.PrintMessage(Message.Start, a => action(Message.Start));
+            UserInterface.PrintMessage(Message.Start);
 
             // Assert
             Assert.Equal(expected, consoleOutput.ToString().Trim());
+        }
+
+        [Fact]
+        public void UI_GetInput_With_Specified_Action()
+        {
+            // Arrange
+            string expected = Message.Start;
+            string? input = "";
+            Func<string?> function = new(() => Message.Start);
+
+            // Act
+            
+            input = UserInterface.GetInput(function);
+
+            // Assert
+            Assert.Equal(expected, input);
+        }
+
+        [Fact]
+        public void UI_GetInput_With_Member_Action()
+        {
+            // Arrange
+            string expected = Message.Start;
+            string? input = "";
+            Func<string?> function = new(() => Message.Start);
+
+            UserInterface = new UI(Console.WriteLine, function);
+
+            // Act
+
+            input = UserInterface.GetInput();
+
+            // Assert
+            Assert.Equal(expected, input);
         }
     }
 }

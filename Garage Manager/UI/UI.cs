@@ -17,6 +17,16 @@ namespace Garage_Manager
             _inputMethod = inputMethod;
         }
 
+        public string? GetInput(Func<string?> inputMethod)
+        {
+            return inputMethod.Invoke();
+        }
+
+        public string? GetInput()
+        {
+            return GetInput(_inputMethod);
+        }
+
         public void PrintMessage(string message, Action<string> printMethod)
         {
             printMethod.Invoke(message);

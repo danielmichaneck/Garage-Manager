@@ -13,7 +13,7 @@ namespace Garage_Manager
 
         public Handler()
         {
-            
+            _garage = new Garage<IVehicle>(19);
         }
     }
 }

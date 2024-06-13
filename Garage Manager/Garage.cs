@@ -14,7 +14,6 @@ namespace Garage_Manager
     {
         private T[] _list;
         private bool[] _occupied;
-        private int _count;
 
         public Garage(int size)
         {
@@ -30,7 +29,6 @@ namespace Garage_Manager
                 {
                     _list[i] = add;
                     _occupied[i] = true;
-                    _count++;
                     return true;
                 }
             }
@@ -39,12 +37,11 @@ namespace Garage_Manager
 
         bool IGarage<T>.Remove(string licenseNumber)
         {
-            for (int i = 0; i < _list.Length; i++)
+            for (int i = 0; i < _occupied.Length; i++)
             {
                 if (_occupied[i] && _list[i].GetVehicleInformation()._licenseNumber == licenseNumber)
                 {
                     _occupied[i] = false;
-                    _count--;
                     return true;
                 }
             }
@@ -53,9 +50,9 @@ namespace Garage_Manager
 
         public IEnumerator<T> GetEnumerator()
         {
-            for (int i = 0; i < _count; i++)
+            for (int i = 0; i < _list.Length; i++)
             {
-                yield return _list[i];
+                if (_occupied[i]) yield return _list[i];
             }
         }
 

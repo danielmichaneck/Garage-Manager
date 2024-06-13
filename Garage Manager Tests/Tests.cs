@@ -74,5 +74,63 @@ namespace Garage_Manager_Tests
             // Assert
             Assert.False(oob);
         }
+
+        [Fact]
+        public void Garage_Enumerator_Test_Add_Fail()
+        {
+            // Setup
+            bool expectedFalse;
+
+            IGarage<IVehicle> garage = new Garage<IVehicle>(1);
+
+            IVehicle car1 = new Car("ABC 123", Color.Green);
+            IVehicle car2 = new Car("ABC 245", Color.Red);
+
+            garage.Add(car1);
+
+            expectedFalse = garage.Add(car2);
+
+            // Assert
+            Assert.False(expectedFalse);
+        }
+
+        [Fact]
+        public void Garage_Enumerator_Test_Remove_Success()
+        {
+            // Setup
+            bool expectedTrue;
+
+            IGarage<IVehicle> garage = new Garage<IVehicle>(2);
+
+            IVehicle car1 = new Car("ABC 123", Color.Green);
+            IVehicle car2 = new Car("ABC 245", Color.Red);
+
+            garage.Add(car1);
+            garage.Add(car2);
+
+            expectedTrue = garage.Remove(car2.GetVehicleInformation()._licenseNumber);
+
+            // Assert
+            Assert.True(expectedTrue);
+        }
+
+        [Fact]
+        public void Garage_Enumerator_Test_Remove_Fail()
+        {
+            // Setup
+            bool expectedFalse;
+
+            IGarage<IVehicle> garage = new Garage<IVehicle>(2);
+
+            IVehicle car1 = new Car("ABC 123", Color.Green);
+            IVehicle car2 = new Car("ABC 245", Color.Red);
+
+            garage.Add(car1);
+
+            expectedFalse = garage.Remove(car2.GetVehicleInformation()._licenseNumber);
+
+            // Assert
+            Assert.False(expectedFalse);
+        }
     }
 }

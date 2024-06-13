@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+
+[assembly: InternalsVisibleTo("Garage Manager Tests")]
 
 namespace Garage_Manager
 {
@@ -11,6 +14,7 @@ namespace Garage_Manager
     {
         private T[] _list;
         private bool[] _occupied;
+        private int _count;
 
         public Garage(int size)
         {
@@ -26,6 +30,7 @@ namespace Garage_Manager
                 {
                     _list[i] = add;
                     _occupied[i] = true;
+                    _count++;
                     return true;
                 }
             }
@@ -39,6 +44,7 @@ namespace Garage_Manager
                 if (_occupied[i] && _list[i].GetVehicleInformation()._licenseNumber == licenseNumber)
                 {
                     _occupied[i] = false;
+                    _count--;
                     return true;
                 }
             }
@@ -47,7 +53,7 @@ namespace Garage_Manager
 
         public IEnumerator<T> GetEnumerator()
         {
-            for (int i = 0; i < _list.Length - 1; i++)
+            for (int i = 0; i < _count; i++)
             {
                 yield return _list[i];
             }
@@ -55,7 +61,7 @@ namespace Garage_Manager
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            yield return _list;
+            return GetEnumerator();
         }
     }
 }

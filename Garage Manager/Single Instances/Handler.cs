@@ -11,9 +11,14 @@ namespace Garage_Manager
     {
         private IGarage<IVehicle> _garage;
 
-        public Handler()
+        public Handler(int size)
         {
-            _garage = new Garage<IVehicle>(19);
+            _garage = new Garage<IVehicle>(size);
+        }
+
+        void IHandler.AddGarage(IGarage<IVehicle> garage)
+        {
+            throw new NotImplementedException();
         }
     }
 }

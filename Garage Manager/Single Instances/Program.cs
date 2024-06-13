@@ -6,9 +6,11 @@ namespace Garage_Manager
     {
         static void Main(string[] args)
         {
+            Console.Title = "Garage manager application.";
+
             Manager GarageManager = new();
 
-            GarageManager.ManageGarage();
+            GarageManager.RunApplication();
         }
     }
 }

@@ -3,12 +3,12 @@ using System.Drawing;
 
 namespace Garage_Manager_Tests
 {
-    public class Tests
+    public class Garage_Tests
     {
         [Fact]
         public void Garage_Enumerator_Test_Add()
         {
-            // Setup
+            // Arrange
             string expected;
             string output = "";
 
@@ -42,7 +42,7 @@ namespace Garage_Manager_Tests
         [Fact]
         public void Garage_Enumerator_Test_OOB_Success()
         {
-            // Setup
+            // Arrange
             bool oob = false;
             string output = "";
 
@@ -78,7 +78,7 @@ namespace Garage_Manager_Tests
         [Fact]
         public void Garage_Enumerator_Test_Add_Fail()
         {
-            // Setup
+            // Arrange
             bool expectedFalse;
 
             IGarage<IVehicle> garage = new Garage<IVehicle>(1);
@@ -86,8 +86,8 @@ namespace Garage_Manager_Tests
             IVehicle car1 = new Car("ABC 123", Color.Green);
             IVehicle car2 = new Car("ABC 245", Color.Red);
 
+            // Act
             garage.Add(car1);
-
             expectedFalse = garage.Add(car2);
 
             // Assert
@@ -97,7 +97,7 @@ namespace Garage_Manager_Tests
         [Fact]
         public void Garage_Enumerator_Test_Remove_Success()
         {
-            // Setup
+            // Arrange
             bool expectedTrue;
 
             IGarage<IVehicle> garage = new Garage<IVehicle>(2);
@@ -105,6 +105,7 @@ namespace Garage_Manager_Tests
             IVehicle car1 = new Car("ABC 123", Color.Green);
             IVehicle car2 = new Car("ABC 245", Color.Red);
 
+            // Act
             garage.Add(car1);
             garage.Add(car2);
 
@@ -117,7 +118,7 @@ namespace Garage_Manager_Tests
         [Fact]
         public void Garage_Enumerator_Test_Remove_Fail()
         {
-            // Setup
+            // Arrange
             bool expectedFalse;
 
             IGarage<IVehicle> garage = new Garage<IVehicle>(2);
@@ -125,6 +126,7 @@ namespace Garage_Manager_Tests
             IVehicle car1 = new Car("ABC 123", Color.Green);
             IVehicle car2 = new Car("ABC 245", Color.Red);
 
+            // Act
             garage.Add(car1);
 
             expectedFalse = garage.Remove(car2.GetVehicleInformation()._licenseNumber);

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Garage_Manager
 {
-    internal interface IUI
+    internal interface IHandler
     {
+        internal void AddGarage(IGarage<IVehicle> garage);
     }
 }

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Garage_Manager
 {
-    internal interface IHandler
+    internal interface IUI
     {
-
+        void PrintMessage(string message, Action<string> printMethod);
+        void PrintMessage(string message);
     }
 }

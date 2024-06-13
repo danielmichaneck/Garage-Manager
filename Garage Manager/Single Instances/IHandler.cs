@@ -8,6 +8,8 @@ namespace Garage_Manager
 {
     internal interface IHandler
     {
+        IGarage<IVehicle> CreateNewGarage(int size, List<IVehicle> cars);
+        IGarage<IVehicle> CreateNewGarage(int size);
         internal void AddGarage(IGarage<IVehicle> garage);
     }
 }

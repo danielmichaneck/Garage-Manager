@@ -9,11 +9,29 @@ namespace Garage_Manager
 {
     internal class Handler : IHandler
     {
-        private IGarage<IVehicle> _garage;
+        private GarageList<IGarage<IVehicle>> _garages;
 
-        public Handler(int size)
+        public Handler()
         {
-            _garage = new Garage<IVehicle>(size);
+            _garages = new();
+        }
+
+        public IGarage<IVehicle> CreateNewGarage(int size, List<IVehicle> cars)
+        {
+            IGarage<IVehicle> newGarage = new Garage<IVehicle>(size);
+            for (int i = 0; i < cars.Count; i++)
+            {
+                newGarage.Add(cars[i]);
+            }
+            _garages.Add(newGarage);
+            return newGarage;
+        }
+
+        public IGarage<IVehicle> CreateNewGarage(int size)
+        {
+            var newGarage = CreateNewGarage(size, new List<IVehicle>());
+            _garages.Add(newGarage);
+            return newGarage;
         }
 
         void IHandler.AddGarage(IGarage<IVehicle> garage)

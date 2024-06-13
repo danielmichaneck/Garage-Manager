@@ -11,7 +11,7 @@ namespace Garage_Manager_Tests
 {
     public class UI_Tests
     {
-        IUI UserInterface = new UI(outputMethod: Console.WriteLine,
+        IUI userInterface = new UI(outputMethod: Console.WriteLine,
                                    inputMethod: Console.ReadLine);
 
         [Fact]
@@ -41,7 +41,7 @@ namespace Garage_Manager_Tests
             Console.SetOut(consoleOutput);
 
             // Act
-            UserInterface.PrintMessage(Message.Start, a => action(Message.Start));
+            userInterface.PrintMessage(Message.Start, a => action(Message.Start));
 
             // Assert
             Assert.Equal(expected, consoleOutput.ToString().Trim());
@@ -56,7 +56,7 @@ namespace Garage_Manager_Tests
             Console.SetOut(consoleOutput);
 
             // Act
-            UserInterface.PrintMessage(Message.Start);
+            userInterface.PrintMessage(Message.Start);
 
             // Assert
             Assert.Equal(expected, consoleOutput.ToString().Trim());
@@ -71,8 +71,7 @@ namespace Garage_Manager_Tests
             Func<string?> function = new(() => Message.Start);
 
             // Act
-            
-            input = UserInterface.GetInput(function);
+            input = userInterface.GetInput(function);
 
             // Assert
             Assert.Equal(expected, input);
@@ -85,12 +84,11 @@ namespace Garage_Manager_Tests
             string expected = Message.Start;
             string? input = "";
             Func<string?> function = new(() => Message.Start);
-
-            UserInterface = new UI(Console.WriteLine, function);
+            userInterface = new UI(Console.WriteLine, function);
 
             // Act
 
-            input = UserInterface.GetInput();
+            input = userInterface.GetInput();
 
             // Assert
             Assert.Equal(expected, input);

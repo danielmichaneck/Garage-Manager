@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+
+[assembly: InternalsVisibleTo("Garage Manager Tests")]
 
 namespace Garage_Manager
 {
@@ -25,6 +28,11 @@ namespace Garage_Manager
 
 
             } while (!exit);
+        }
+
+        internal IGarage<IVehicle> CreateNewGarage(IVehicle car1, IVehicle car2)
+        {
+            throw new NotImplementedException();
         }
     }
 }

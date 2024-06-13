@@ -10,7 +10,7 @@ namespace Garage_Manager
 
             Manager GarageManager = new();
 
-            GarageManager.RunApplication();
+            //GarageManager.RunApplication();
         }
     }
 }

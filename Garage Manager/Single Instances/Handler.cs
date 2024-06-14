@@ -39,10 +39,9 @@ namespace Garage_Manager
             return newGarage;
         }
 
-        public string ListAllVehiclesInGarage(int index)
+        private string ListVehicleInformation(IGarage<IVehicle> garage)
         {
             StringBuilder listStringBuilder = new("");
-            IGarage<IVehicle> garage = _garages.Get(index) ?? new Garage<IVehicle>(0);
             foreach (IVehicle vehicle in garage)
             {
                 listStringBuilder.Append(vehicle.GetVehicleInformation().ToString() + Environment.NewLine);
@@ -50,15 +49,18 @@ namespace Garage_Manager
             return listStringBuilder.ToString().Trim();
         }
 
+        public string ListAllVehiclesInGarage(int index)
+        {
+            IGarage<IVehicle> garage = _garages.Get(index) ?? new Garage<IVehicle>(0);
+            return ListVehicleInformation(garage);
+        }
+
         public string ListAllVehiclesInAllGarages()
         {
             StringBuilder listStringBuilder = new("");
             foreach (IGarage<IVehicle> garage in _garages)
             {
-                foreach (IVehicle vehicle in garage)
-                {
-                    listStringBuilder.Append(vehicle.GetVehicleInformation().ToString() + Environment.NewLine);
-                }
+                listStringBuilder.Append(ListVehicleInformation(garage).Trim());
             }
             return listStringBuilder.ToString().Trim();
         }

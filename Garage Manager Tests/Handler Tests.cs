@@ -54,12 +54,12 @@ namespace Garage_Manager_Tests
             IGarage<IVehicle> newGarage1 = handler.CreateNewGarage(size: 10, cars1);
             IGarage<IVehicle> newGarage2 = handler.CreateNewGarage(size: 10, cars2);
 
-            foreach(IVehicle car in cars1)
+            foreach(IVehicle car in newGarage1)
             {
                 result.Append(car.GetVehicleInformation().ToString() + Environment.NewLine);
             }
 
-            foreach (IVehicle car in cars2)
+            foreach (IVehicle car in newGarage2)
             {
                 result.Append(car.GetVehicleInformation().ToString() + Environment.NewLine);
             }

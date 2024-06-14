@@ -14,26 +14,63 @@ namespace Garage_Manager
         private IUI _userInterface;
         private IHandler _handler;
 
+        private bool exit = false;
+
         public Manager()
         {
             _userInterface = new UI(outputMethod: Console.WriteLine,
                                     inputMethod: Console.ReadLine);
+            _handler = new Handler();
         }
 
         public void RunApplication()
         {
-            bool exit = false;
-
             do
             {
-
+                MainMenu();
 
             } while (!exit);
         }
 
-        internal IGarage<IVehicle> CreateNewGarage(IVehicle car1, IVehicle car2)
+        private void MainMenu()
         {
-            return _handler.CreateNewGarage(10);
+            _userInterface.PrintMessage(Message.Start);
+            string input = _userInterface.GetValidInput();
+            switch (input)
+            {
+                case "0":
+                    exit = true;
+                    break;
+
+                case "1":
+
+                    break;
+
+                case "2":
+                    CreateGarage();
+                    break;
+            }
+        }
+
+        private void CreateGarage()
+        {
+            _userInterface.PrintMessage(Message.CreateGarageSize);
+            int size;
+            while (!int.TryParse(_userInterface.GetValidInput(), out size));
+            _userInterface.PrintMessage(Message.PopulateGarage);
+            bool populate;
+            while (!bool.TryParse(_userInterface.GetValidInput(), out populate));
+            if (populate)
+            {
+                int numberOfVehicles = PopulateGarage(size);
+                _userInterface.PrintMessage(Message.GarageCreated(size, numberOfVehicles) + Environment.NewLine);
+            }
+            else _userInterface.PrintMessage(Message.GarageCreated(size) + Environment.NewLine);
+        }
+
+        private int PopulateGarage(int size)
+        {
+            return 10;
         }
     }
 }

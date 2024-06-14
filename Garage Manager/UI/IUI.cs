@@ -10,6 +10,8 @@ namespace Garage_Manager
     {
         string? GetInput(Func<string?> _inputMethod);
         string? GetInput();
+        string GetValidInput(Func<string?> _inputMethod);
+        string GetValidInput();
         void PrintMessage(string message, Action<string> printMethod);
         void PrintMessage(string message);
     }

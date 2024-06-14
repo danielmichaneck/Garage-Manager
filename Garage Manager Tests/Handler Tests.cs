@@ -10,11 +10,13 @@ namespace Garage_Manager_Tests
 {
     public class Handler_Tests
     {
+        IHandler handler;
+
         [Fact]
         public void List_Vehicles_In_Garage_Test()
         {
             // Arrange
-            IHandler handler = new Handler();
+            handler = new Handler();
 
             IVehicle car1 = new Car("ABC 123", Color.Green);
             IVehicle car2 = new Car("DEF 456", Color.Brown);
@@ -34,7 +36,7 @@ namespace Garage_Manager_Tests
         public void List_Vehicles_In_More_Garages_Test()
         {
             // Arrange
-            IHandler handler = new Handler();
+            handler = new Handler();
 
             IVehicle car1 = new Car("ABC 123", Color.Green);
             IVehicle car2 = new Car("DEF 456", Color.Brown);
@@ -50,11 +52,11 @@ namespace Garage_Manager_Tests
 
             StringBuilder result = new("");
 
-            // Act
             IGarage<IVehicle> newGarage1 = handler.CreateNewGarage(size: 10, cars1);
             IGarage<IVehicle> newGarage2 = handler.CreateNewGarage(size: 10, cars2);
 
-            foreach(IVehicle car in newGarage1)
+            // Act
+            foreach (IVehicle car in newGarage1)
             {
                 result.Append(car.GetVehicleInformation().ToString() + Environment.NewLine);
             }
@@ -72,7 +74,7 @@ namespace Garage_Manager_Tests
         public void List_Vehicles_In_All_Garages_Test()
         {
             // Arrange
-            IHandler handler = new Handler();
+            handler = new Handler();
 
             IVehicle car1 = new Car("ABC 123", Color.Green);
             IVehicle car2 = new Car("DEF 456", Color.Brown);
@@ -86,14 +88,76 @@ namespace Garage_Manager_Tests
                               car3.GetVehicleInformation().ToString() + Environment.NewLine +
                               car4.GetVehicleInformation().ToString();
 
-            // Act
             IGarage<IVehicle> newGarage1 = handler.CreateNewGarage(size: 10, cars1);
             IGarage<IVehicle> newGarage2 = handler.CreateNewGarage(size: 10, cars2);
 
+            // Act
             string result = handler.ListAllVehiclesInAllGarages();
 
             // Assert
             Assert.Equal(expected, result.ToString().Trim());
+        }
+
+        [Fact]
+        public void Add_Vehicle_OOB_Test()
+        {
+            // Arrange
+            handler = new Handler();
+
+            bool addCheck;
+
+            IVehicle car1 = new Car("ABC 123", Color.Green);
+            IVehicle car2 = new Car("DEF 456", Color.Brown);
+
+            IGarage<IVehicle> newGarage1 = handler.CreateNewGarage(size: 1);
+
+            // Act
+            addCheck = handler.GetGarage(0).Add(car1);
+            addCheck = handler.GetGarage(0).Add(car2);
+
+            // Assert
+            Assert.False(addCheck);
+        }
+
+        [Fact]
+        public void Remove_Vehicle_Fail_Test()
+        {
+            // Arrange
+            handler = new Handler();
+
+            bool removeCheck;
+
+            IVehicle car1 = new Car("ABC 123", Color.Green);
+
+            IGarage<IVehicle> newGarage1 = handler.CreateNewGarage(size: 2);
+
+            // Act
+            removeCheck = handler.GetGarage(0)!.Remove("DEF 456");
+
+            // Assert
+            Assert.False(removeCheck);
+        }
+
+
+        [Fact]
+        public void Remove_Vehicle_Success_Test()
+        {
+            // Arrange
+            handler = new Handler();
+
+            bool removeCheck;
+
+            IVehicle car1 = new Car("ABC 123", Color.Green);
+            IVehicle car2 = new Car("DEF 456", Color.Green);
+            List<IVehicle> cars = [car1, car2];
+
+            IGarage<IVehicle> newGarage1 = handler.CreateNewGarage(size: 2, cars);
+
+            // Act
+            removeCheck = handler.GetGarage(0)!.Remove("DEF 456");
+
+            // Assert
+            Assert.True(removeCheck);
         }
     }
 }

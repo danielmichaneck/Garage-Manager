@@ -27,6 +27,25 @@ namespace Garage_Manager
             return GetInput(_inputMethod);
         }
 
+        public string GetValidInput(Func<string?> inputMethod)
+        {
+            string result;
+            int excepctionCounter = 0;
+            do
+            {
+                result = GetInput(inputMethod) ?? "";
+                if (excepctionCounter > 100) throw new InvalidOperationException("No valid input given in 100 tries.");
+                excepctionCounter++;
+            }
+            while (String.IsNullOrWhiteSpace(result));
+            return result;
+        }
+
+        public string GetValidInput()
+        {
+            return GetValidInput(_inputMethod);
+        }
+
         public void PrintMessage(string message, Action<string> printMethod)
         {
             printMethod.Invoke(message);

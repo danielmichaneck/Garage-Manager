@@ -93,5 +93,33 @@ namespace Garage_Manager_Tests
             // Assert
             Assert.Equal(expected, input);
         }
+
+        [Fact]
+        public void UI_GetValidInput_Success_Test()
+        {
+            // Arrange
+            string expected = Message.Start;
+            string? input = "";
+            Func<string?> function = new(() => Message.Start);
+
+            // Act
+            input = userInterface.GetValidInput(function);
+
+            // Assert
+            Assert.Equal(expected, input);
+        }
+
+        [Fact]
+        public void UI_GetValidInput_Fail_Test()
+        {
+            // Arrange
+            string expected = Message.Start;
+            Func<string?> function = new(() => " ");
+
+            // Act
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => userInterface.GetValidInput(function));
+        }
     }
 }

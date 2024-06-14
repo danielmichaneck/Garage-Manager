@@ -64,5 +64,19 @@ namespace Garage_Manager
             }
             return listStringBuilder.ToString().Trim();
         }
+
+        public IGarage<IVehicle>? GetGarage(int index)
+        {
+            if (_garages.Count > index && _garages.Get(index) != default)
+            {
+                return _garages.Get(index);
+            }
+            return default;
+        }
+
+        public List<IGarage<IVehicle>> GetAllGarages()
+        {
+            return new List<IGarage<IVehicle>>(_garages);
+        }
     }
 }

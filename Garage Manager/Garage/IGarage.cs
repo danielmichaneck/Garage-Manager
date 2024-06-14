@@ -13,5 +13,6 @@ namespace Garage_Manager
     {
         internal bool Add(T add);
         internal bool Remove(string licenseNumber);
+        public string GetAllVehicleInformation();
     }
 }

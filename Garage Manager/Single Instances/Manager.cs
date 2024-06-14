@@ -12,6 +12,7 @@ namespace Garage_Manager
     internal class Manager
     {
         private IUI _userInterface;
+        private IHandler _handler;
 
         public Manager()
         {
@@ -32,7 +33,7 @@ namespace Garage_Manager
 
         internal IGarage<IVehicle> CreateNewGarage(IVehicle car1, IVehicle car2)
         {
-            throw new NotImplementedException();
+            return _handler.CreateNewGarage(10);
         }
     }
 }

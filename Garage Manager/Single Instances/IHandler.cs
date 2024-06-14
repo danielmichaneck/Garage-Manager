@@ -10,6 +10,8 @@ namespace Garage_Manager
     {
         IGarage<IVehicle> CreateNewGarage(int size, List<IVehicle> cars);
         IGarage<IVehicle> CreateNewGarage(int size);
-        internal void AddGarage(IGarage<IVehicle> garage);
+        public void AddGarage(IGarage<IVehicle> garage);
+        public string ListAllVehiclesInGarage(int index);
+        public string ListAllVehiclesInAllGarages();
     }
 }

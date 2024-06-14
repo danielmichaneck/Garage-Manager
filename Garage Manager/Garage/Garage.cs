@@ -60,5 +60,10 @@ namespace Garage_Manager
         {
             return GetEnumerator();
         }
+
+        public string GetAllVehicleInformation()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -16,6 +16,11 @@ namespace Garage_Manager
             _garages = new();
         }
 
+        public void AddGarage(IGarage<IVehicle> garage)
+        {
+            _garages.Add(garage);
+        }
+
         public IGarage<IVehicle> CreateNewGarage(int size, List<IVehicle> cars)
         {
             IGarage<IVehicle> newGarage = new Garage<IVehicle>(size);
@@ -23,20 +28,39 @@ namespace Garage_Manager
             {
                 newGarage.Add(cars[i]);
             }
-            _garages.Add(newGarage);
+            AddGarage(newGarage);
             return newGarage;
         }
 
         public IGarage<IVehicle> CreateNewGarage(int size)
         {
             var newGarage = CreateNewGarage(size, new List<IVehicle>());
-            _garages.Add(newGarage);
+            AddGarage(newGarage);
             return newGarage;
         }
 
-        void IHandler.AddGarage(IGarage<IVehicle> garage)
+        public string ListAllVehiclesInGarage(int index)
         {
-            throw new NotImplementedException();
+            StringBuilder listStringBuilder = new("");
+            IGarage<IVehicle> garage = _garages.Get(index) ?? new Garage<IVehicle>(0);
+            foreach (IVehicle vehicle in garage)
+            {
+                listStringBuilder.Append(vehicle.GetVehicleInformation().ToString() + Environment.NewLine);
+            }
+            return listStringBuilder.ToString().Trim();
+        }
+
+        public string ListAllVehiclesInAllGarages()
+        {
+            StringBuilder listStringBuilder = new("");
+            foreach (IGarage<IVehicle> garage in _garages)
+            {
+                foreach (IVehicle vehicle in garage)
+                {
+                    listStringBuilder.Append(vehicle.GetVehicleInformation().ToString() + Environment.NewLine);
+                }
+            }
+            return listStringBuilder.ToString().Trim();
         }
     }
 }

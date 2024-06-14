@@ -53,7 +53,7 @@ namespace Garage_Manager
                     result.Append(_additionalProperties[i] + Environment.NewLine);
                 }
             }
-            return result.ToString();
+            return result.ToString().Trim();
         }
     }
 }

@@ -185,4 +185,51 @@ namespace Garage_Manager_Tests
                                                            compareMethod));
         }
     }
+
+    internal class UserSimulation
+    {
+        private Handler _handler;
+        private StringReader reader;
+
+        private string[] _simulatedStrings;
+        private int[] _simulatedInts;
+        private bool[] _simulatedBools;
+
+        private int _stringsIndex;
+        private int _intsIndex;
+        private int _boolsIndex;
+
+        internal UserSimulation(Handler handler)
+        {
+            _handler = handler;
+            reader = new("");
+        }
+
+        internal string SimulatedInput()
+        {
+            if (_stringsIndex >= _simulatedStrings.Length) _stringsIndex--; 
+            return _simulatedStrings[_stringsIndex++];
+        }
+
+        internal int SimulatedInputInt()
+        {
+            if (_stringsIndex >= _simulatedInts.Length) _intsIndex--;
+            return _simulatedInts[_intsIndex++];
+        }
+
+        internal bool SimulatedInputBool()
+        {
+            if (_stringsIndex >= _simulatedBools.Length) _boolsIndex--;
+            return _simulatedBools[_boolsIndex++];
+        }
+
+        internal void SetSimulatedInputs(string[] simulatedStrings,
+                                         int[] simulatedInts,
+                                         bool[] simulatedBools)
+        {
+            _simulatedStrings = simulatedStrings;
+            _simulatedInts = simulatedInts;
+            _simulatedBools = simulatedBools;
+        }
+    }
 }

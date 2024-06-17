@@ -5,12 +5,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Garage_Manager_Tests
 {
     public class Handler_Tests
     {
         IHandler handler;
+        IUI userInterface;
 
         [Fact]
         public void List_Vehicles_In_Garage_Test()
@@ -158,6 +160,29 @@ namespace Garage_Manager_Tests
 
             // Assert
             Assert.True(removeCheck);
+        }
+
+
+        [Fact]
+        public void Create_Vehicles_With_Same_License_Number_Fail_Test()
+        {
+            // Arrange
+            Handler realHandler = new();
+            userInterface = new UI(Console.WriteLine, Console.ReadLine);
+
+            Func<string> inputMethod = new(() => "ABC 123");
+            Func<string, string, bool> compareMethod = new((string s, string s2) => true);
+
+            IVehicle car1 = new Car(inputMethod.Invoke(), Color.Blue);
+            IVehicle[] cars = [car1];
+            
+            // Act
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => realHandler.GetLicenseNumber(cars,
+                                                           Console.WriteLine,
+                                                           inputMethod,
+                                                           compareMethod));
         }
     }
 }

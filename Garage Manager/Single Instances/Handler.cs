@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+
+[assembly: InternalsVisibleTo("Handler Tests")]
 
 namespace Garage_Manager
 {
@@ -103,13 +106,14 @@ namespace Garage_Manager
             else outputAction.Invoke(Message.GarageCreated(size) + Environment.NewLine);
         }
 
-        private int PopulateGarage(int size, Action<string> outputAction,
+        // ToDo: Set private!
+        internal int PopulateGarage(int size, Action<string> outputAction,
                                              Func<string> inputFunc,
                                              Func<int> inputFuncInt,
                                              Func<string, string, bool> compareStringsFunc)
         {
             outputAction.Invoke(Message.NumberOfVehicles);
-            int numberOfVehicles = 0;
+            int numberOfVehicles;
             do
             {
                 numberOfVehicles = inputFuncInt.Invoke();
@@ -126,7 +130,8 @@ namespace Garage_Manager
             return numberOfVehicles;
         }
 
-        private IVehicle CreateVehicle(IVehicle[] currentVehicles,
+        // ToDo: Set private!
+        internal IVehicle CreateVehicle(IVehicle[] currentVehicles,
                                        Action<string> outputAction,
                                        Func<string> inputFunc,
                                        Func<string, string, bool> compareStringsFunc)
@@ -151,7 +156,8 @@ namespace Garage_Manager
             }
         }
 
-        private VehicleType GetVehicleType(Action<string> outputAction,
+        // ToDo: Set private!
+        internal VehicleType GetVehicleType(Action<string> outputAction,
                                            Func<string> inputFunc,
                                            Func<string, string, bool> compareStringsFunc)
         {
@@ -174,7 +180,8 @@ namespace Garage_Manager
             throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
         }
 
-        private string GetLicenseNumber(IVehicle[] currentVehicles,
+        // ToDo: Set private!
+        internal string GetLicenseNumber(IVehicle[] currentVehicles,
                                         Action<string> outputAction,
                                         Func<string> inputFunc,
                                         Func<string, string, bool> compareStringsFunc)
@@ -215,7 +222,8 @@ namespace Garage_Manager
             return licenseNumber;
         }
 
-        private Color GetColor(Action<string> outputAction,
+        // ToDo: Set private!
+        internal Color GetColor(Action<string> outputAction,
                                Func<string> inputFunc,
                                Func<string, string, bool> compareStringsFunc)
         {

@@ -15,5 +15,10 @@ namespace Garage_Manager
         public List<IGarage<IVehicle>> GetAllGarages();
         public string ListAllVehiclesInGarage(int index);
         public string ListAllVehiclesInAllGarages();
+        public void CreateGarage(Action<string> outputAction,
+                                  Func<string> inputFunc,
+                                  Func<int> inputFuncInt,
+                                  Func<bool> inputFuncBool,
+                                  Func<string, string, bool> compareStringsFunc);
     }
 }

@@ -20,7 +20,11 @@ namespace Garage_Manager
         public static string GarageCreated(int spots, int vehicles) => $"You have created a garage with {spots} parking spots and {vehicles} vehicles in it.";
 
         // Populate garage
-        public static string PopulateVehicleType => "What type will the vehicle be?";
+        public static string InputVehicleType => "Please enter the vehicle type.";
+        public static string InputVehicleTypeNotFound(string vehicleType) => $"No vehicle type named {vehicleType} was found.";
+        public static string InputVehicleLicenseNumber => "Please enter the vehicle's unique license number.";
+        public static string InputVehicleLicenseNumberNotUnique => "Another vehicle already has that license number.";
+        public static string InputVehicleColor => "Please enter the name of the vehicle's color.";
 
         // UI Input
         public static string InputValidBool => "Please input input yes to accept or no to reject.";

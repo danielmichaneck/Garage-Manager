@@ -8,6 +8,7 @@ namespace Garage_Manager
 {
     internal interface IVehicle
     {
+        public static VehicleType[] VehicleTypes = [VehicleType.Car];
         internal VehicleInformation GetVehicleInformation();
     }
 }

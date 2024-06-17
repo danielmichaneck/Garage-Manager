@@ -22,7 +22,7 @@ namespace Garage_Manager_Tests
             IVehicle car2 = new Car("DEF 456", Color.Brown);
             IVehicle[] cars = [car1, car2];
 
-            string expected = car1.GetVehicleInformation().ToString() + Environment.NewLine +
+            string expected = car1.GetVehicleInformation().ToString() + Environment.NewLine + Environment.NewLine +
                               car2.GetVehicleInformation().ToString();
 
             // Act
@@ -83,9 +83,9 @@ namespace Garage_Manager_Tests
             IVehicle[] cars1 = [car1, car2];
             IVehicle[] cars2 = [car3, car4];
 
-            string expected = car1.GetVehicleInformation().ToString() + Environment.NewLine +
+            string expected = car1.GetVehicleInformation().ToString() + Environment.NewLine + Environment.NewLine +
                               car2.GetVehicleInformation().ToString() +
-                              car3.GetVehicleInformation().ToString() + Environment.NewLine +
+                              car3.GetVehicleInformation().ToString() + Environment.NewLine + Environment.NewLine +
                               car4.GetVehicleInformation().ToString();
 
             IGarage<IVehicle> newGarage1 = handler.CreateNewGarage(size: 10, cars1);

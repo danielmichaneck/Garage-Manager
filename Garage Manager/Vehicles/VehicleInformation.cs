@@ -9,14 +9,16 @@ namespace Garage_Manager
 {
     public struct VehicleInformation
     {
+        public readonly VehicleType _vehicletype;
         public readonly string _licenseNumber;
         public readonly Color _color;
         public readonly int _quarterSize;
         public readonly int _numberOfWheels;
         private string[]? _additionalProperties;
 
-        public VehicleInformation(string licenseNumber, Color color, int quarterSize, int numberOfWheels)
+        public VehicleInformation(VehicleType vehicleType, string licenseNumber, Color color, int quarterSize, int numberOfWheels)
         {
+            _vehicletype = vehicleType;
             _licenseNumber = licenseNumber;
             _color = color;
             _quarterSize = quarterSize;
@@ -42,7 +44,9 @@ namespace Garage_Manager
 
         public override string ToString()
         {
-            var result = new StringBuilder(new string($"License number: {_licenseNumber} " + Environment.NewLine + 
+            var result = new StringBuilder(new string(
+                $"Vehicle type:  {_vehicletype}" + Environment.NewLine +
+                $"License number: {_licenseNumber} " + Environment.NewLine + 
                 $"Color: {_color}" + Environment.NewLine +
                 $"Size as a quarter of a parking space: {_quarterSize}" + Environment.NewLine +
                 $"Number of wheels: {_numberOfWheels}" + Environment.NewLine));

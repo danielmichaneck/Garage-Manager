@@ -1,4 +1,5 @@
 ﻿using Garage_Manager;
+using NuGet.Frameworks;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,7 +13,10 @@ namespace Garage_Manager_Tests
     public class UI_Tests
     {
         IUI userInterface = new UI(outputMethod: Console.WriteLine,
-                                   inputMethod: Console.ReadLine);
+                                    inputMethod: Console.ReadLine);
+
+        UI uiPrivate = new(outputMethod: Console.WriteLine,
+                            inputMethod: Console.ReadLine);
 
         [Fact]
         public void Message_Struct_Test()
@@ -21,7 +25,8 @@ namespace Garage_Manager_Tests
             string expected = "Please select an option from the menu." + Environment.NewLine +
             "0. Exit the application." + Environment.NewLine +
             "1. Read data from a file." + Environment.NewLine +
-            "2. Create a new garage.";
+            "2. Create a new garage." + Environment.NewLine +
+            "3. List all vehicles in all garages.";
 
             // Act
             string output = Message.Start;
@@ -120,6 +125,88 @@ namespace Garage_Manager_Tests
 
             // Assert
             Assert.Throws<InvalidOperationException>(() => userInterface.GetValidInput(function));
+        }
+
+        [Fact]
+        public void UI_CheckSameString_Success_Test()
+        {
+            // Arrange
+            bool expected;
+            string first = "This is a test.";
+            string second = "ThiS IS a TeST.";
+
+            // Act
+            expected = uiPrivate.CheckIfSameString(first, second);
+
+            // Assert
+            Assert.True(expected);
+        }
+
+        [Fact]
+        public void UI_CheckSameString_Fail_Test()
+        {
+            // Arrange
+            bool expected;
+            string first = "This is a test.";
+            string second = "ThiS IS a fauLTY test!";
+
+            // Act
+            expected = uiPrivate.CheckIfSameString(first, second);
+
+            // Assert
+            Assert.False(expected);
+        }
+
+        [Fact]
+        public void UI_GetValidBool_Success_Test()
+        {
+            // Arrange
+            bool expected;
+            Func<string?> function = new(() => "yEs");
+
+            // Act
+            expected = userInterface.GetValidBool(function);
+
+            // Assert
+            Assert.True(expected);
+        }
+
+        [Fact]
+        public void UI_GetValidBool_Fail_Test()
+        {
+            // Arrange
+            Func<string?> function = new(() => "yEsS");
+
+            // Act
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => userInterface.GetValidInt(function));
+        }
+
+        [Fact]
+        public void UI_GetValidInt_Success_Test()
+        {
+            // Arrange
+            int expected;
+            Func<string?> function = new(() => "1");
+
+            // Act
+            expected = userInterface.GetValidInt(function);
+
+            // Assert
+            Assert.True(expected != 0);
+        }
+
+        [Fact]
+        public void UI_GetValidInt_Fail_Test()
+        {
+            // Arrange
+            Func<string?> function = new(() => "A");
+
+            // Act
+
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => userInterface.GetValidInt(function));
         }
     }
 }

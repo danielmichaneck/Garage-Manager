@@ -9,9 +9,15 @@ namespace Garage_Manager
 {
     internal class Car : Vehicle
     {
-        public Car(string licensenumber, Color color) : base(licensenumber, color, 4, 4)
+        public Car(string licensenumber, Color color) : base(VehicleType.Car, licensenumber, color, 4, 4)
         {
             _vehicleInformation.SetAdditionalProperties("Number of seats: 5");
+        }
+
+        public static Car CreateCar(Action<string> outputAction, Func<string> inputActionString, Func<int> inputActionInt)
+        {
+
+            return new Car(" ", Color.Black);
         }
     }
 }

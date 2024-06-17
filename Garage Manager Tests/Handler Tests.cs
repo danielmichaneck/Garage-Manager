@@ -20,7 +20,7 @@ namespace Garage_Manager_Tests
 
             IVehicle car1 = new Car("ABC 123", Color.Green);
             IVehicle car2 = new Car("DEF 456", Color.Brown);
-            List<IVehicle> cars = [car1, car2];
+            IVehicle[] cars = [car1, car2];
 
             string expected = car1.GetVehicleInformation().ToString() + Environment.NewLine +
                               car2.GetVehicleInformation().ToString();
@@ -42,8 +42,8 @@ namespace Garage_Manager_Tests
             IVehicle car2 = new Car("DEF 456", Color.Brown);
             IVehicle car3 = new Car("CAR 001", Color.Blue);
             IVehicle car4 = new Car("BIL 002", Color.Yellow);
-            List<IVehicle> cars1 = [car1, car2];
-            List<IVehicle> cars2 = [car3, car4];
+            IVehicle[] cars1 = [car1, car2];
+            IVehicle[] cars2 = [car3, car4];
 
             string expected = car1.GetVehicleInformation().ToString() + Environment.NewLine +
                               car2.GetVehicleInformation().ToString() + Environment.NewLine +
@@ -80,8 +80,8 @@ namespace Garage_Manager_Tests
             IVehicle car2 = new Car("DEF 456", Color.Brown);
             IVehicle car3 = new Car("CAR 001", Color.Blue);
             IVehicle car4 = new Car("BIL 002", Color.Yellow);
-            List<IVehicle> cars1 = [car1, car2];
-            List<IVehicle> cars2 = [car3, car4];
+            IVehicle[] cars1 = [car1, car2];
+            IVehicle[] cars2 = [car3, car4];
 
             string expected = car1.GetVehicleInformation().ToString() + Environment.NewLine +
                               car2.GetVehicleInformation().ToString() +
@@ -149,7 +149,7 @@ namespace Garage_Manager_Tests
 
             IVehicle car1 = new Car("ABC 123", Color.Green);
             IVehicle car2 = new Car("DEF 456", Color.Green);
-            List<IVehicle> cars = [car1, car2];
+            IVehicle[] cars = [car1, car2];
 
             IGarage<IVehicle> newGarage1 = handler.CreateNewGarage(size: 2, cars);
 

@@ -17,9 +17,10 @@ namespace Garage_Manager
         protected int _numberOfSeats;
         protected int _length;
 
-        public Vehicle(string licenseNumber, Color color, int quarterSize, int numberOfWheels)
+        public Vehicle(VehicleType vehicleType, string licenseNumber, Color color, int quarterSize, int numberOfWheels)
         {
-            _vehicleInformation = new(licenseNumber,
+            _vehicleInformation = new(vehicleType,
+                                      licenseNumber,
                                       color,
                                       quarterSize,
                                       numberOfWheels);

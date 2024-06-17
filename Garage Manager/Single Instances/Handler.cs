@@ -21,10 +21,10 @@ namespace Garage_Manager
             _garages.Add(garage);
         }
 
-        public IGarage<IVehicle> CreateNewGarage(int size, List<IVehicle> cars)
+        public IGarage<IVehicle> CreateNewGarage(int size, IVehicle[] cars)
         {
             IGarage<IVehicle> newGarage = new Garage<IVehicle>(size);
-            for (int i = 0; i < cars.Count; i++)
+            for (int i = 0; i < cars.Length; i++)
             {
                 newGarage.Add(cars[i]);
             }
@@ -34,7 +34,7 @@ namespace Garage_Manager
 
         public IGarage<IVehicle> CreateNewGarage(int size)
         {
-            var newGarage = CreateNewGarage(size, new List<IVehicle>());
+            var newGarage = CreateNewGarage(size, Array.Empty<IVehicle>());
             AddGarage(newGarage);
             return newGarage;
         }
@@ -44,7 +44,8 @@ namespace Garage_Manager
             StringBuilder listStringBuilder = new("");
             foreach (IVehicle vehicle in garage)
             {
-                listStringBuilder.Append(vehicle.GetVehicleInformation().ToString() + Environment.NewLine);
+                listStringBuilder.Append(vehicle.GetVehicleInformation().ToString() + Environment.NewLine
+                                                                                    + Environment.NewLine);
             }
             return listStringBuilder.ToString().Trim();
         }

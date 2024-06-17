@@ -8,7 +8,7 @@ namespace Garage_Manager
 {
     internal interface IHandler
     {
-        IGarage<IVehicle> CreateNewGarage(int size, List<IVehicle> cars);
+        IGarage<IVehicle> CreateNewGarage(int size, IVehicle[] cars);
         IGarage<IVehicle> CreateNewGarage(int size);
         public void AddGarage(IGarage<IVehicle> garage);
         public IGarage<IVehicle>? GetGarage(int index);

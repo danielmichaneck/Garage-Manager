@@ -56,7 +56,9 @@ namespace Garage_Manager
 
         public string ListAllVehiclesInGarage(int index)
         {
-            IGarage<IVehicle> garage = _garages.Get(index) ?? new Garage<IVehicle>(0);
+            IGarage<IVehicle>? garage = _garages.Get(index);
+            if (garage is null) return Message.ListSpecificGarageDoesNotExist;
+            else if (garage.Count() < 1) return Message.ListEmptyGarage;
             return ListVehicleInformation(garage);
         }
 
@@ -67,7 +69,7 @@ namespace Garage_Manager
             foreach (IGarage<IVehicle> garage in _garages)
             {
                 listStringBuilder.Append(Environment.NewLine + Environment.NewLine + $"Garage {++i}:" + Environment.NewLine);
-                if (garage.Count() < 1) listStringBuilder.Append("Empty." + Environment.NewLine);
+                if (garage.Count() < 1) listStringBuilder.Append(Message.ListEmptyGarage + Environment.NewLine);
                 listStringBuilder.Append(ListVehicleInformation(garage).Trim() + Environment.NewLine);
             }
             return listStringBuilder.ToString().Trim();
@@ -85,6 +87,11 @@ namespace Garage_Manager
         public List<IGarage<IVehicle>> GetAllGarages()
         {
             return new List<IGarage<IVehicle>>(_garages);
+        }
+
+        public int Count()
+        {
+            return _garages.Count;
         }
 
         public IVehicle? CreateVehicle(IVehicle[] currentVehicles,

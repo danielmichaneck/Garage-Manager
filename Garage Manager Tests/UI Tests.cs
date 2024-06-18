@@ -22,14 +22,10 @@ namespace Garage_Manager_Tests
         public void Message_Struct_Test()
         {
             // Arrange
-            string expected = "Please select an option from the menu." + Environment.NewLine +
-            "0. Exit the application." + Environment.NewLine +
-            "1. Read data from a file." + Environment.NewLine +
-            "2. Create a new garage." + Environment.NewLine +
-            "3. List all vehicles in all garages.";
+            string expected = "The file \"SavedList\" was successfully found in the .exe directory.";
 
             // Act
-            string output = Message.Start;
+            string output = Message.ReadSuccess;
 
 
             // Assert

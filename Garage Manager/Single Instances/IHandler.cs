@@ -13,6 +13,7 @@ namespace Garage_Manager
         public void AddGarage(IGarage<IVehicle> garage);
         public IGarage<IVehicle>? GetGarage(int index);
         public List<IGarage<IVehicle>> GetAllGarages();
+        public int Count();
         public string ListAllVehiclesInGarage(int index);
         public string ListAllVehiclesInAllGarages();
         public void CreateGarage(Action<string> outputAction,

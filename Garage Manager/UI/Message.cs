@@ -13,7 +13,8 @@ namespace Garage_Manager
             "0. Exit the application." + Environment.NewLine +
             "1. Read data from a file." + Environment.NewLine +
             "2. Create a new garage." + Environment.NewLine +
-            "3. List all vehicles in all garages.";
+            "3. List all vehicles in all garages." + Environment.NewLine +
+            "4. List all vehicles in a specific garage.";
         // File read/write
         public static string ReadSuccess => "The file \"SavedList\" was successfully found in the .exe directory.";
         public static string ReadNotFound => "The file \"SavedList\" was not found in the .exe directory.";
@@ -37,9 +38,16 @@ namespace Garage_Manager
         public static string InputVehicleColorNotRecognized() => $"The color was not recognized.";
 
         // UI Input
-        public static string InputValidBool => "Please input input yes to accept or no to reject.";
+        public static string InputValidBool => "Please input yes to accept or no to reject.";
         public static string InputValidInt => "Please input an integer value.";
         public static string InputNotValid => "Your input was not recognized. Please try again.";
+
+        // Listing vehicles
+        public static string ListSpecificGarage(int min, int max) => $"Please input which garage ({min}-{max}) you would like to access.";
+        public static string ListSpecificGarageDoesNotExist => "The garage you are trying to access does not exist.";
+        public static string ListNoGarages => "There are no garages in memory.";
+        public static string ListOnlyOneGarage => "There is only one garage in memory.";
+        public static string ListEmptyGarage => "The garage is empty.";
 
         // Error messages
         public static string ErrorNoValidInputIn100Tries => "No valid input given in 100 tries.";

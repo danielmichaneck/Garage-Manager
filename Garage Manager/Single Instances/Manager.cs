@@ -38,8 +38,9 @@ namespace Garage_Manager
 
         private void MainMenu()
         {
-            _userInterface.PrintMessage(Message.Start);
+            _userInterface.PrintMessage(Environment.NewLine + Message.Start + Environment.NewLine);
             string input = _userInterface.GetValidInput();
+            Console.Clear();
             switch (input)
             {
                 case "0":
@@ -47,25 +48,71 @@ namespace Garage_Manager
                     break;
 
                 case "1":
-                    ReadFromFile();
-                    if (_fileReadSuccessfully)
-                        AddContentsFromFile();
+                    ReadFromFileStart();
                     break;
 
                 case "2":
-                    _handler.CreateGarage(_userInterface.PrintMessage,
+                    CreateNewGarage();
+                    break;
+
+                case "3":
+                    ListAllVehiclesInAllGarages();
+                    break;
+
+                case "4":
+                    ListSpecificGarage();
+                    break;
+            }
+        }
+
+        private void CreateNewGarage()
+        {
+            _handler.CreateGarage(_userInterface.PrintMessage,
                                           _userInterface.GetValidInput,
                                           _userInterface.GetValidInt,
                                           _userInterface.GetValidBool,
                                           _userInterface.CheckIfSameString);
-                    break;
+        }
 
-                case "3":
-                    _userInterface.PrintMessage(Environment.NewLine +
+        private void ListAllVehiclesInAllGarages()
+        {
+            _userInterface.PrintMessage(Environment.NewLine +
                                                 _handler.ListAllVehiclesInAllGarages() +
                                                 Environment.NewLine);
-                    break;
+        }
+
+        private void ListSpecificGarage()
+        {
+            if (_handler.Count() == 0)
+            {
+                _userInterface.PrintMessage(Environment.NewLine + Message.ListNoGarages);
+                return;
             }
+            else if (_handler.Count() == 1)
+            {
+                _userInterface.PrintMessage(Environment.NewLine + Message.ListOnlyOneGarage);
+                _userInterface.PrintMessage(Environment.NewLine +
+                                            _handler.ListAllVehiclesInGarage(0) +
+                                            Environment.NewLine);
+                return;
+            }
+            _userInterface.PrintMessage(Message.ListSpecificGarage(1, _handler.Count()));
+            int input = _userInterface.GetValidInt();
+            if (input < 0 || input >= _handler.Count())
+            {
+                _userInterface.PrintMessage(Environment.NewLine + Message.ListSpecificGarageDoesNotExist);
+                return;
+            }
+            _userInterface.PrintMessage(Environment.NewLine +
+                                        _handler.ListAllVehiclesInGarage(input - 1) +
+                                        Environment.NewLine);
+        }
+
+        private void ReadFromFileStart()
+        {
+            ReadFromFile();
+            if (_fileReadSuccessfully)
+                AddContentsFromFile();
         }
 
         private bool ReadFromFile()

@@ -14,13 +14,16 @@ namespace Garage_Manager
             "1. Read data from a file." + Environment.NewLine +
             "2. Create a new garage." + Environment.NewLine +
             "3. List all vehicles in all garages." + Environment.NewLine +
-            "4. List all vehicles in a specific garage.";
+            "4. List all vehicles in a specific garage." + Environment.NewLine +
+            "5. List specific vehicles in all garages.";
         // File read/write
         public static string ReadSuccess => "The file \"SavedList\" was successfully found in the .exe directory.";
         public static string ReadNotFound => "The file \"SavedList\" was not found in the .exe directory.";
         public static string ReadNull => "The file \"SavedList\" was found in the .exe directory but was empty.";
-        public static string VehicleNull(int line) => $"A vehicle at line {line} could not be created.";
-        public static string FinishedAddingContent(int numberOfGarages, int numberOfVehicles) => $"{numberOfGarages} garages and {numberOfVehicles} vehicles were created.";
+        public static string ReadAddContents => "Would you like to add the contents from the file to the memory?";
+        public static string ReadAddingContents => "Adding garages and vehicles from the file to the memory.";
+        public static string ReadVehicleNull(int line) => $"A vehicle at line {line} could not be added.";
+        public static string ReadFinishedAddingContent(int numberOfGarages, int numberOfVehicles) => $"{numberOfGarages} garages and {numberOfVehicles} vehicles were created.";
 
         // Create garage
         public static string CreateGarageSize => "Please enter how many parking spots you would like in the garage.";
@@ -42,12 +45,17 @@ namespace Garage_Manager
         public static string InputValidInt => "Please input an integer value.";
         public static string InputNotValid => "Your input was not recognized. Please try again.";
 
-        // Listing vehicles
+        // Listing all vehicles
         public static string ListSpecificGarage(int min, int max) => $"Please input which garage ({min}-{max}) you would like to access.";
         public static string ListSpecificGarageDoesNotExist => "The garage you are trying to access does not exist.";
         public static string ListNoGarages => "There are no garages in memory.";
         public static string ListOnlyOneGarage => "There is only one garage in memory.";
         public static string ListEmptyGarage => "The garage is empty.";
+
+        // Listing specific vehicles
+        public static string SpecificVehicleByProperty(string property) => $"Would you like to select vehicles by {property}?";
+        public static string SpecificVehicleEnterProperty(string property) => $"Which {property} would you like to select by?";
+        public static string SpecificVehicleAnotherProperty(string property) => $"Would you like to add another {property} to the selection?";
 
         // Error messages
         public static string ErrorNoValidInputIn100Tries => "No valid input given in 100 tries.";

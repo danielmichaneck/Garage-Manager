@@ -12,17 +12,14 @@ namespace Garage_Manager
         protected VehicleInformation _vehicleInformation;
 
         protected FuelType _fuelType;
-        protected int _numberOfEngines;
-        protected int _cylinderVolume;
         protected int _numberOfSeats;
-        protected int _length;
 
-        public Vehicle(VehicleType vehicleType, string licenseNumber, Color color, int quarterSize, int numberOfWheels)
+        public Vehicle(VehicleType vehicleType, string licenseNumber, Color color, int size, int numberOfWheels)
         {
             _vehicleInformation = new(vehicleType,
                                       licenseNumber,
                                       color,
-                                      quarterSize,
+                                      size,
                                       numberOfWheels);
         }
 

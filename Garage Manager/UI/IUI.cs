@@ -19,5 +19,6 @@ namespace Garage_Manager
         bool CheckIfSameString(string first, string second);
         void PrintMessage(string message, Action<string> printMethod);
         void PrintMessage(string message);
+        void ClearOutput();
     }
 }

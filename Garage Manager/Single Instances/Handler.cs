@@ -84,9 +84,9 @@ namespace Garage_Manager
             return default;
         }
 
-        public List<IGarage<IVehicle>> GetAllGarages()
+        public GarageList<IGarage<IVehicle>> GetAllGarages()
         {
-            return new List<IGarage<IVehicle>>(_garages);
+            return _garages;
         }
 
         public int Count()
@@ -101,7 +101,7 @@ namespace Garage_Manager
                                        Func<string, string, bool> compareStringsFunc)
         {
             // Sets vehicle type.
-            VehicleType? vehicleType = GetVehicleType(vehicleTypeAsString, compareStringsFunc);
+            VehicleType? vehicleType = IVehicle.GetVehicleType(vehicleTypeAsString, compareStringsFunc);
             if (vehicleType is null) return null;
             // Checks that the license number is unique.
             if (!CheckLicenseNumber(currentVehicles, licenseNumber, compareStringsFunc)) return null;
@@ -176,18 +176,6 @@ namespace Garage_Manager
 
             return InstantiateVehicle(vehicleType, licenseNumber, color);
         }
-        private VehicleType? GetVehicleType(string vehicleTypeAsString,
-                                           Func<string, string, bool> compareStringsFunc)
-        {
-            for (int p = 0; p < IVehicle.VehicleTypes.Length; p++)
-            {
-                if (compareStringsFunc.Invoke(vehicleTypeAsString, IVehicle.VehicleTypes[p].ToString()))
-                {
-                    return IVehicle.VehicleTypes[p];
-                }
-            }
-            return null;
-        }
 
         private VehicleType GetVehicleType(Action<string> outputAction,
                                             Func<string> inputFunc,
@@ -199,7 +187,7 @@ namespace Garage_Manager
             {
                 outputAction.Invoke(Message.InputVehicleType);
                 input = inputFunc.Invoke();
-                VehicleType? vehicleType = GetVehicleType(input, compareStringsFunc);
+                VehicleType? vehicleType = IVehicle.GetVehicleType(input, compareStringsFunc);
                 if (vehicleType is not null) return (VehicleType)vehicleType;
                 outputAction.Invoke(Message.InputVehicleTypeNotFound(input));
                 repeats++;

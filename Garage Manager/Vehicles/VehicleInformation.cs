@@ -12,16 +12,16 @@ namespace Garage_Manager
         public readonly VehicleType _vehicletype;
         public readonly string _licenseNumber;
         public readonly Color _color;
-        public readonly int _quarterSize;
+        public readonly int _size;
         public readonly int _numberOfWheels;
         private string[]? _additionalProperties;
 
-        public VehicleInformation(VehicleType vehicleType, string licenseNumber, Color color, int quarterSize, int numberOfWheels)
+        public VehicleInformation(VehicleType vehicleType, string licenseNumber, Color color, int size, int numberOfWheels)
         {
             _vehicletype = vehicleType;
             _licenseNumber = licenseNumber;
             _color = color;
-            _quarterSize = quarterSize;
+            _size = size;
             _numberOfWheels = numberOfWheels;
         }
 
@@ -48,7 +48,7 @@ namespace Garage_Manager
                 $"Vehicle type:  {_vehicletype}" + Environment.NewLine +
                 $"License number: {_licenseNumber} " + Environment.NewLine + 
                 $"Color: {_color}" + Environment.NewLine +
-                $"Size as a quarter of a parking space: {_quarterSize}" + Environment.NewLine +
+                $"Size as number of parking spaces it requires: {_size}" + Environment.NewLine +
                 $"Number of wheels: {_numberOfWheels}" + Environment.NewLine));
             if (_additionalProperties is not null)
             {

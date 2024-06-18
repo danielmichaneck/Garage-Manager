@@ -13,10 +13,12 @@ namespace Garage_Manager_Tests
     public class UI_Tests
     {
         IUI userInterface = new UI(outputMethod: Console.WriteLine,
-                                    inputMethod: Console.ReadLine);
+                                   inputMethod: Console.ReadLine,
+                                   clearMethod: Console.Clear);
 
         UI uiPrivate = new(outputMethod: Console.WriteLine,
-                            inputMethod: Console.ReadLine);
+                           inputMethod: Console.ReadLine,
+                           clearMethod: Console.Clear);
 
         [Fact]
         public void Message_Struct_Test()
@@ -85,7 +87,7 @@ namespace Garage_Manager_Tests
             string expected = Message.Start;
             string? input = "";
             Func<string?> function = new(() => Message.Start);
-            userInterface = new UI(Console.WriteLine, function);
+            userInterface = new UI(Console.WriteLine, function, Console.Clear);
 
             // Act
 

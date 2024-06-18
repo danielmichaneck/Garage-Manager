@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace Garage_Manager
 {
-    public enum VehicleType { Car }
+    public enum VehicleType { Car, Airplane }
     internal enum FuelType { Gasoline, Diesel, Kerosene }
 }

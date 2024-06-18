@@ -11,11 +11,13 @@ namespace Garage_Manager
     {
         private Action<string> _outputMethod;
         private Func<string?> _inputMethod;
+        private Action _clearMethod;
 
-        public UI(Action<string> outputMethod, Func<string?> inputMethod)
+        public UI(Action<string> outputMethod, Func<string?> inputMethod, Action clearMethod)
         {
             _outputMethod = outputMethod;
             _inputMethod = inputMethod;
+            _clearMethod = clearMethod;
         }
 
         public string? GetInput(Func<string?> inputMethod)
@@ -143,6 +145,11 @@ namespace Garage_Manager
         public void PrintMessage(string message)
         {
             PrintMessage(message, _outputMethod);
+        }
+
+        public void ClearOutput()
+        {
+            _clearMethod.Invoke();
         }
     }
 }

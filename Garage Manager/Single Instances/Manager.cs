@@ -98,7 +98,7 @@ namespace Garage_Manager
             }
             _userInterface.PrintMessage(Message.ListSpecificGarage(1, _handler.Count()));
             int input = _userInterface.GetValidInt();
-            if (input < 0 || input >= _handler.Count())
+            if (input < 1 || input > _handler.Count())
             {
                 _userInterface.PrintMessage(Environment.NewLine + Message.ListSpecificGarageDoesNotExist);
                 return;

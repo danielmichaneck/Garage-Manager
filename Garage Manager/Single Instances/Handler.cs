@@ -63,9 +63,11 @@ namespace Garage_Manager
         public string ListAllVehiclesInAllGarages()
         {
             StringBuilder listStringBuilder = new("");
+            int i = 0;
             foreach (IGarage<IVehicle> garage in _garages)
             {
-                listStringBuilder.Append(ListVehicleInformation(garage).Trim());
+                listStringBuilder.Append(Environment.NewLine + Environment.NewLine + $"Garage {++i}:" + Environment.NewLine);
+                listStringBuilder.Append(ListVehicleInformation(garage).Trim() + Environment.NewLine);
             }
             return listStringBuilder.ToString().Trim();
         }
@@ -82,6 +84,24 @@ namespace Garage_Manager
         public List<IGarage<IVehicle>> GetAllGarages()
         {
             return new List<IGarage<IVehicle>>(_garages);
+        }
+
+        public IVehicle? CreateVehicle(IVehicle[] currentVehicles,
+                                       string vehicleTypeAsString,
+                                       string licenseNumber,
+                                       string colorAsString,
+                                       Func<string, string, bool> compareStringsFunc)
+        {
+            // Sets vehicle type.
+            VehicleType? vehicleType = GetVehicleType(vehicleTypeAsString, compareStringsFunc);
+            if (vehicleType is null) return null;
+            // Checks that the license number is unique.
+            if (!CheckLicenseNumber(currentVehicles, licenseNumber, compareStringsFunc)) return null;
+            // Sets color.
+            Color? color = GetColor(colorAsString);
+            if (color is null) return null;
+            // Returns instance.
+            return InstantiateVehicle((VehicleType)vehicleType, licenseNumber, (Color)color);
         }
 
         public void CreateGarage(Action<string> outputAction,
@@ -106,11 +126,10 @@ namespace Garage_Manager
             else outputAction.Invoke(Message.GarageCreated(size) + Environment.NewLine);
         }
 
-        // ToDo: Set private!
-        internal int PopulateGarage(int size, Action<string> outputAction,
-                                             Func<string> inputFunc,
-                                             Func<int> inputFuncInt,
-                                             Func<string, string, bool> compareStringsFunc)
+        private int PopulateGarage(int size, Action<string> outputAction,
+                                    Func<string> inputFunc,
+                                    Func<int> inputFuncInt,
+                                    Func<string, string, bool> compareStringsFunc)
         {
             outputAction.Invoke(Message.NumberOfVehicles);
             int numberOfVehicles;
@@ -130,8 +149,7 @@ namespace Garage_Manager
             return numberOfVehicles;
         }
 
-        // ToDo: Set private!
-        internal IVehicle CreateVehicle(IVehicle[] currentVehicles,
+        private IVehicle CreateVehicle(IVehicle[] currentVehicles,
                                        Action<string> outputAction,
                                        Func<string> inputFunc,
                                        Func<string, string, bool> compareStringsFunc)
@@ -148,18 +166,24 @@ namespace Garage_Manager
                                    inputFunc,
                                    compareStringsFunc);
 
-            switch(vehicleType)
+            return InstantiateVehicle(vehicleType, licenseNumber, color);
+        }
+        private VehicleType? GetVehicleType(string vehicleTypeAsString,
+                                           Func<string, string, bool> compareStringsFunc)
+        {
+            for (int p = 0; p < IVehicle.VehicleTypes.Length; p++)
             {
-                default:
-                    return new Car(licenseNumber, color);
-
+                if (compareStringsFunc.Invoke(vehicleTypeAsString, IVehicle.VehicleTypes[p].ToString()))
+                {
+                    return IVehicle.VehicleTypes[p];
+                }
             }
+            return null;
         }
 
-        // ToDo: Set private!
-        internal VehicleType GetVehicleType(Action<string> outputAction,
-                                           Func<string> inputFunc,
-                                           Func<string, string, bool> compareStringsFunc)
+        private VehicleType GetVehicleType(Action<string> outputAction,
+                                            Func<string> inputFunc,
+                                            Func<string, string, bool> compareStringsFunc)
         {
             string input;
             int repeats = 0;
@@ -167,24 +191,18 @@ namespace Garage_Manager
             {
                 outputAction.Invoke(Message.InputVehicleType);
                 input = inputFunc.Invoke();
-                for (int p = 0; p < IVehicle.VehicleTypes.Length; p++)
-                {
-                    if (compareStringsFunc.Invoke(input, IVehicle.VehicleTypes[p].ToString()))
-                    {
-                        return IVehicle.VehicleTypes[p];
-                    }
-                }
+                VehicleType? vehicleType = GetVehicleType(input, compareStringsFunc);
+                if (vehicleType is not null) return (VehicleType)vehicleType;
                 outputAction.Invoke(Message.InputVehicleTypeNotFound(input));
                 repeats++;
             } while (repeats < 100);
             throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
         }
 
-        // ToDo: Set private!
-        internal string GetLicenseNumber(IVehicle[] currentVehicles,
-                                        Action<string> outputAction,
-                                        Func<string> inputFunc,
-                                        Func<string, string, bool> compareStringsFunc)
+        private string GetLicenseNumber(IVehicle[] currentVehicles,
+                                         Action<string> outputAction,
+                                         Func<string> inputFunc,
+                                         Func<string, string, bool> compareStringsFunc)
         {
             string licenseNumber;
             bool unique;
@@ -194,48 +212,75 @@ namespace Garage_Manager
                 outputAction.Invoke(Message.InputVehicleLicenseNumber);
                 unique = true;
                 licenseNumber = inputFunc.Invoke();
-                foreach (Garage<IVehicle> garage in _garages)
-                {
-                    foreach (IVehicle vehicle in garage)
-                    {
-                        if (compareStringsFunc.Invoke(licenseNumber, vehicle.GetVehicleInformation()._licenseNumber))
-                        {
-                            unique = false;
-                            outputAction.Invoke(Message.InputVehicleLicenseNumberNotUnique);
-                        }
-                    }
-                }
-                foreach (IVehicle vehicle in currentVehicles)
-                {
-                    if (vehicle is not null)
-                    {
-                        if (compareStringsFunc.Invoke(licenseNumber, vehicle.GetVehicleInformation()._licenseNumber))
-                        {
-                            unique = false;
-                            outputAction.Invoke(Message.InputVehicleLicenseNumberNotUnique);
-                        }
-                    }
-                }
+                unique = CheckLicenseNumber(currentVehicles, licenseNumber, compareStringsFunc);
+                if (!unique) outputAction.Invoke(Message.InputVehicleLicenseNumberNotUnique);
                 repeats++;
             } while (!unique && repeats < 100);
             if (repeats >= 100) throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
             return licenseNumber;
         }
 
-        // ToDo: Set private!
-        internal Color GetColor(Action<string> outputAction,
-                               Func<string> inputFunc,
-                               Func<string, string, bool> compareStringsFunc)
+        private Color? GetColor(string colorAsString)
         {
-            Color color;
+            Color color = Color.FromName(colorAsString);
+            if (!color.IsKnownColor) return null;
+            return color;
+        }
+
+        private Color GetColor(Action<string> outputAction,
+                                Func<string> inputFunc,
+                                Func<string, string, bool> compareStringsFunc)
+        {
+            Color? color;
             int repeats = 0;
             do
             {
                 outputAction.Invoke(Message.InputVehicleColor);
-                color = Color.FromName(inputFunc.Invoke());
-            } while (!color.IsKnownColor && repeats < 100);
-            if (repeats >= 100) throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
-            return color;
+                color = GetColor(inputFunc.Invoke());
+                if (color is null) outputAction.Invoke(Message.InputVehicleColorNotRecognized());
+                repeats++;
+                if (repeats >= 100) throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
+            } while (color is null);
+            return (Color)color!;
+        }
+
+        private bool CheckLicenseNumber(IVehicle[] currentVehicles,
+                                        string licenseNumber,
+                                        Func<string, string, bool> compareStringsFunc)
+        {
+            foreach (Garage<IVehicle> garage in _garages)
+            {
+                foreach (IVehicle vehicle in garage)
+                {
+                    if (compareStringsFunc.Invoke(licenseNumber, vehicle.GetVehicleInformation()._licenseNumber))
+                    {
+                        return false;
+                    }
+                }
+            }
+            foreach (IVehicle vehicle in currentVehicles)
+            {
+                if (vehicle is not null)
+                {
+                    if (compareStringsFunc.Invoke(licenseNumber, vehicle.GetVehicleInformation()._licenseNumber))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private IVehicle InstantiateVehicle(VehicleType vehicleType,
+                                            string licenseNumber,
+                                            Color color)
+        {
+            switch (vehicleType)
+            {
+                default:
+                    return new Car(licenseNumber, color);
+
+            }
         }
     }
 }

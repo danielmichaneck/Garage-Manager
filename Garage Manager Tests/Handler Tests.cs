@@ -85,8 +85,10 @@ namespace Garage_Manager_Tests
             IVehicle[] cars1 = [car1, car2];
             IVehicle[] cars2 = [car3, car4];
 
-            string expected = car1.GetVehicleInformation().ToString() + Environment.NewLine + Environment.NewLine +
-                              car2.GetVehicleInformation().ToString() +
+            string expected = "Garage 1:" + Environment.NewLine +
+                              car1.GetVehicleInformation().ToString() + Environment.NewLine + Environment.NewLine +
+                              car2.GetVehicleInformation().ToString() + Environment.NewLine + Environment.NewLine + Environment.NewLine +
+                              "Garage 2:" + Environment.NewLine +
                               car3.GetVehicleInformation().ToString() + Environment.NewLine + Environment.NewLine +
                               car4.GetVehicleInformation().ToString();
 
@@ -163,27 +165,27 @@ namespace Garage_Manager_Tests
         }
 
 
-        [Fact]
-        public void Create_Vehicles_With_Same_License_Number_Fail_Test()
-        {
-            // Arrange
-            Handler realHandler = new();
-            userInterface = new UI(Console.WriteLine, Console.ReadLine);
+        //[Fact]
+        //public void Create_Vehicles_With_Same_License_Number_Fail_Test()
+        //{
+        //    // Arrange
+        //    Handler realHandler = new();
+        //    userInterface = new UI(Console.WriteLine, Console.ReadLine);
 
-            Func<string> inputMethod = new(() => "ABC 123");
-            Func<string, string, bool> compareMethod = new((string s, string s2) => true);
+        //    Func<string> inputMethod = new(() => "ABC 123");
+        //    Func<string, string, bool> compareMethod = new((string s, string s2) => true);
 
-            IVehicle car1 = new Car(inputMethod.Invoke(), Color.Blue);
-            IVehicle[] cars = [car1];
+        //    IVehicle car1 = new Car(inputMethod.Invoke(), Color.Blue);
+        //    IVehicle[] cars = [car1];
             
-            // Act
+        //    // Act
 
-            // Assert
-            Assert.Throws<InvalidOperationException>(() => realHandler.GetLicenseNumber(cars,
-                                                           Console.WriteLine,
-                                                           inputMethod,
-                                                           compareMethod));
-        }
+        //    // Assert
+        //    Assert.Throws<InvalidOperationException>(() => realHandler.GetLicenseNumber(cars,
+        //                                                   Console.WriteLine,
+        //                                                   inputMethod,
+        //                                                   compareMethod));
+        //}
     }
 
     internal class UserSimulation

@@ -20,5 +20,10 @@ namespace Garage_Manager
                                   Func<int> inputFuncInt,
                                   Func<bool> inputFuncBool,
                                   Func<string, string, bool> compareStringsFunc);
+        public IVehicle? CreateVehicle(IVehicle[] currentVehicles,
+                                       string vehicleTypeAsString,
+                                       string licenseNumber,
+                                       string colorAsString,
+                                       Func<string, string, bool> compareStringsFunc);
     }
 }

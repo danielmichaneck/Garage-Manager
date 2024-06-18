@@ -8,11 +8,18 @@ namespace Garage_Manager
 {
     public struct Message
     {
+        // Main menu
         public static string Start => "Please select an option from the menu." + Environment.NewLine +
             "0. Exit the application." + Environment.NewLine +
             "1. Read data from a file." + Environment.NewLine +
             "2. Create a new garage." + Environment.NewLine +
             "3. List all vehicles in all garages.";
+        // File read/write
+        public static string ReadSuccess => "The file \"SavedList\" was successfully found in the .exe directory.";
+        public static string ReadNotFound => "The file \"SavedList\" was not found in the .exe directory.";
+        public static string ReadNull => "The file \"SavedList\" was found in the .exe directory but was empty.";
+
+        // Create garage
         public static string CreateGarageSize => "Please enter how many parking spots you would like in the garage.";
         public static string PopulateGarage => "Would you like to populate the garage from the start?";
         public static string NumberOfVehicles => "How many vehicles would you like to add to the garage?";
@@ -25,6 +32,7 @@ namespace Garage_Manager
         public static string InputVehicleLicenseNumber => "Please enter the vehicle's unique license number.";
         public static string InputVehicleLicenseNumberNotUnique => "Another vehicle already has that license number.";
         public static string InputVehicleColor => "Please enter the name of the vehicle's color.";
+        public static string InputVehicleColorNotRecognized() => $"The color was not recognized.";
 
         // UI Input
         public static string InputValidBool => "Please input input yes to accept or no to reject.";

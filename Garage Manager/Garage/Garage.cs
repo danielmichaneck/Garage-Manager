@@ -13,6 +13,8 @@ namespace Garage_Manager
     internal class Garage<T> : IGarage<T> where T : IVehicle
     {
         private T[] _list;
+        public T[] ToArray() => _list;
+
         private bool[] _occupied;
 
         public Garage(int size)

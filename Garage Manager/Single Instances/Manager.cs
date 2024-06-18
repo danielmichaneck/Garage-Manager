@@ -61,7 +61,9 @@ namespace Garage_Manager
                     break;
 
                 case "3":
-                    _userInterface.PrintMessage(Environment.NewLine + _handler.ListAllVehiclesInAllGarages());
+                    _userInterface.PrintMessage(Environment.NewLine +
+                                                _handler.ListAllVehiclesInAllGarages() +
+                                                Environment.NewLine);
                     break;
             }
         }
@@ -97,7 +99,7 @@ namespace Garage_Manager
                 }
             }
             // Checking for vehicles and populating garages.
-            IGarage<IVehicle> vehicles = new Garage<IVehicle>((_fileContents.Length / 2) - (garages.Count * 2));
+            IGarage<IVehicle> vehicles = new Garage<IVehicle>(_fileContents.Length / 2);
             int garageIndex = -1;
             for (int i = 0; i < _fileContents.Length; i++)
             {
@@ -105,17 +107,23 @@ namespace Garage_Manager
                 if (_fileContents[i] == "New Garage")
                 {
                     garageIndex++;
+                    i++;
                 }
                 else if (_fileContents[i] == "New Vehicle")
                 {
                     string[] vehicleInformation = _fileContents[i + 1].Split(',');
-                    IVehicle vehicle = _handler.CreateVehicle(vehicles.ToArray(),
-                                                              vehicleInformation[0],
-                                                              vehicleInformation[1],
-                                                              vehicleInformation[2],
-                                                              _userInterface.CheckIfSameString)!;
-                    garages.Get(garageIndex)!.Add(vehicle);
-                    vehicles.Add(vehicle);
+                    IVehicle? vehicle = _handler.CreateVehicle(vehicles.ToArray(),
+                                                               vehicleInformation[0],
+                                                               vehicleInformation[1],
+                                                               vehicleInformation[2],
+                                                               _userInterface.CheckIfSameString)!;
+                    if (vehicle is null) _userInterface.PrintMessage(Message.VehicleNull(i + 1));
+                    else
+                    {
+                        garages.Get(garageIndex)!.Add(vehicle);
+                        vehicles.Add(vehicle);
+                    }
+                    i++;
                 }
             }
             // Adds the garages to the Handler's GarageList.
@@ -123,6 +131,7 @@ namespace Garage_Manager
             {
                 _handler.AddGarage(garages.Get(i)!);
             }
+            _userInterface.PrintMessage(Message.FinishedAddingContent(garages.Count(), vehicles.Count()));
         }
     }
 }

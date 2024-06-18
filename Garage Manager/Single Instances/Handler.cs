@@ -67,6 +67,7 @@ namespace Garage_Manager
             foreach (IGarage<IVehicle> garage in _garages)
             {
                 listStringBuilder.Append(Environment.NewLine + Environment.NewLine + $"Garage {++i}:" + Environment.NewLine);
+                if (garage.Count() < 1) listStringBuilder.Append("Empty." + Environment.NewLine);
                 listStringBuilder.Append(ListVehicleInformation(garage).Trim() + Environment.NewLine);
             }
             return listStringBuilder.ToString().Trim();

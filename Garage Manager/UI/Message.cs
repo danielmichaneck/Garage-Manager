@@ -18,6 +18,8 @@ namespace Garage_Manager
         public static string ReadSuccess => "The file \"SavedList\" was successfully found in the .exe directory.";
         public static string ReadNotFound => "The file \"SavedList\" was not found in the .exe directory.";
         public static string ReadNull => "The file \"SavedList\" was found in the .exe directory but was empty.";
+        public static string VehicleNull(int line) => $"A vehicle at line {line} could not be created.";
+        public static string FinishedAddingContent(int numberOfGarages, int numberOfVehicles) => $"{numberOfGarages} garages and {numberOfVehicles} vehicles were created.";
 
         // Create garage
         public static string CreateGarageSize => "Please enter how many parking spots you would like in the garage.";

@@ -45,7 +45,7 @@ namespace Garage_Manager
 
         bool IGarage<T>.Remove(string licenseNumber)
         {
-            for (int i = 0; i < _occupied.Length; i++)
+            for (int i = 0; i < _list.Length; i++)
             {
                 if (_occupied[i] && _list[i].GetVehicleInformation()._licenseNumber == licenseNumber)
                 {
@@ -54,6 +54,21 @@ namespace Garage_Manager
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// Returns the number of elements stored in the array
+        /// rather than the length of the array itself.
+        /// </summary>
+        /// <returns></returns>
+        public int Count()
+        {
+            int result = 0;
+            for (int i = 0; i < _list.Length; i++)
+            {
+                if (_occupied[i]) result++;
+            }
+            return result;
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -67,11 +82,6 @@ namespace Garage_Manager
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        public string GetAllVehicleInformation()
-        {
-            throw new NotImplementedException();
         }
     }
 }

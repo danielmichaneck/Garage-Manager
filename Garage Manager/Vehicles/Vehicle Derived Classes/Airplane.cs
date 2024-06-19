@@ -11,7 +11,7 @@ namespace Garage_Manager
     {
         private int _rangeInKilometres;
 
-        public Airplane(string licensenumber, Color color, int numberOfSeats = 60, int size = 60, int rangeInKilometres = 5000) :
+        public Airplane(string licensenumber, Color color, int numberOfSeats = 20, int size = 60, int rangeInKilometres = 5000) :
             base(VehicleType.Airplane, licensenumber, color, size, numberOfWheels: 3, numberOfSeats: numberOfSeats, fuelType: FuelType.Kerosene)
         {
             // Setting additional properties.

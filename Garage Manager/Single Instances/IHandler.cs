@@ -35,5 +35,7 @@ namespace Garage_Manager
                                        Func<string, string, bool> compareStringsFunc);
 
         public void AddVehicleToGarage(IVehicle vehicle, int index, Action<string> outputAction);
+
+        public bool RemoveVehicle(int index, string licenseNumber, Func<string, string, bool> compareStringsFunc);
     }
 }

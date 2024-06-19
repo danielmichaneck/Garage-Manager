@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
@@ -83,7 +84,7 @@ namespace Garage_Manager
             {
                 outputAction.Invoke(Message.ListSpecificGarageDoesNotExist);
             }
-            outputAction.Invoke($"Garage {index}");
+            outputAction.Invoke($"Garage {index + 1}");
             foreach (VehicleType vehicleType in IVehicle.VehicleTypes)
             {
                 numberOfVehicleType = 0;
@@ -105,7 +106,7 @@ namespace Garage_Manager
 
         private string ListVehicleInformation(IGarage<IVehicle> garage)
         {
-            StringBuilder listStringBuilder = new("");
+            StringBuilder listStringBuilder = new();
             foreach (IVehicle vehicle in garage)
             {
                 listStringBuilder.Append(vehicle.GetVehicleInformation().ToString() + Environment.NewLine
@@ -502,14 +503,14 @@ namespace Garage_Manager
             int repeats = 0;
             do
             {
-                outputAction(Message.InputVehicleFuelType);
+                outputAction(Environment.NewLine + Message.InputVehicleFuelType);
                 int i = 1;
                 foreach (FuelType fuelType in IVehicle.FuelTypes)
                 {
                     outputAction($"{i}. {IVehicle.FuelTypes[i - 1]}." + Environment.NewLine);
                     i++;
                 }
-                outputAction(Environment.NewLine);
+                outputAction("");
                 int input = inputFuncInt.Invoke();
                 if (input > 0 && input <= IVehicle.FuelTypes.Count())
                     return IVehicle.FuelTypes[input - 1];
@@ -588,9 +589,27 @@ namespace Garage_Manager
             else if (_garages.Get(index) is null) outputAction(Message.AddVehicleGarageDoesNotExist(index));
             else
             {
-                _garages.Get(index)!.Add(vehicle);
-                outputAction(Message.AddVehicleSuccess(vehicle.GetVehicleInformation().LicenseNumber, index));
+                if (_garages.Get(index)!.Add(vehicle))
+                    outputAction(Message.AddVehicleSuccess(vehicle.GetVehicleInformation().LicenseNumber, index + 1));
+                else
+                    outputAction(Message.AddVehicleFail(index + 1));
             }
+        }
+
+        public bool RemoveVehicle(int index, string licenseNumber, Func<string, string, bool> compareStringsFunc)
+        {
+            IGarage<IVehicle>? garage = _garages.Get(index);
+            if (garage is null) return false;
+            foreach (IVehicle vehicle in garage)
+            {
+                if (compareStringsFunc.Invoke(licenseNumber,
+                                              vehicle.GetVehicleInformation().LicenseNumber))
+                {
+                    garage.Remove(vehicle.GetVehicleInformation().LicenseNumber);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

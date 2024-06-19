@@ -19,7 +19,7 @@ namespace Garage_Manager
             "6. List specific vehicles in a single garage." + Environment.NewLine +
             "7. Add a new garage." + Environment.NewLine +
             "8. Access a specific garage to add or remove vehicles in it." + Environment.NewLine +
-            "9. Find a specific vehicle by its license number." + Environment.NewLine;
+            "9. Find a specific vehicle by its license number.";
         
         // File read
         public static string ReadSuccess => "The file \"SavedList\" was successfully found in the .exe directory.";
@@ -27,6 +27,7 @@ namespace Garage_Manager
         public static string ReadNull => "The file \"SavedList\" was found in the .exe directory but was empty.";
         public static string ReadAddContents => "Would you like to add the contents from the file to the memory?";
         public static string ReadAddingContents => "Adding garages and vehicles from the file to the memory.";
+        public static string ReadNotAddingContents => "Closing file.";
         public static string ReadVehicleNull(int line) => $"A vehicle at line {line} could not be added.";
         public static string ReadFinishedAddingContent(int numberOfGarages, int numberOfVehicles) => $"{numberOfGarages} garages and {numberOfVehicles} vehicles were created.";
 
@@ -70,6 +71,7 @@ namespace Garage_Manager
         public static string AddVehicleIsNull => "The vehicle was not a valid instance.";
         public static string AddVehicleGarageDoesNotExist(int index) => $"Garage {index} does not exist.";
         public static string AddVehicleSuccess(string licenseNumber, int index) => $"A vehicle with license number {licenseNumber} was added to garage {index}.";
+        public static string AddVehicleFail(int index) => $"The vehicle could not be added to garage {index}.";
 
         // UI Input
         public static string InputValidBool => "Please input yes to accept or no to reject.";
@@ -93,7 +95,7 @@ namespace Garage_Manager
                                                             "0. Finish selection and move on to result." + Environment.NewLine +
                                                             "1. Vehicle type." + Environment.NewLine +
                                                             "2. Color." + Environment.NewLine +
-                                                            "3. Size as number of parking spots it uses." + Environment.NewLine +
+                                                            "3. Length in meters." + Environment.NewLine +
                                                             "4. Number of wheels." + Environment.NewLine +
                                                             "5. Fuel type." + Environment.NewLine;
         public static string SpecificVehicleEnterProperty(string property) => $"Which {property} would you like to select by?" + Environment.NewLine +

@@ -85,6 +85,10 @@ namespace Garage_Manager
                 case "9":
                     FindVehicle();
                     break;
+
+                default:
+                    _userInterface.PrintMessage(Message.InputNotValid);
+                    break;
             }
         }
 
@@ -136,30 +140,29 @@ namespace Garage_Manager
             bool loop = true;
             do
             {
+                _userInterface.PrintMessage("");
+                _handler.ListGarage(index - 1, _userInterface.PrintMessage);
                 _userInterface.PrintMessage(Message.GarageAccessed(index));
+                _userInterface.PrintMessage("");
                 int input = _userInterface.GetValidInt();
                 _userInterface.ClearOutput();
                 switch (input)
                 {
                     case 0:
-                        _userInterface.ClearOutput();
                         loop = false;
                         break;
 
                     case 1:
-                        _userInterface.ClearOutput();
                         _userInterface.PrintMessage(Message.AccessingGarage(index));
-                        _handler.ListAllVehiclesInGarage(index - 1);
+                        _userInterface.PrintMessage(_handler.ListAllVehiclesInGarage(index - 1));
                         break;
 
                     case 2:
-                        _userInterface.ClearOutput();
                         _userInterface.PrintMessage(Message.AccessingGarage(index));
                         CreateNewVehicle(index - 1);
                         break;
 
                     case 3:
-                        _userInterface.ClearOutput();
                         _userInterface.PrintMessage(Message.AccessingGarage(index));
                         RemoveVehicle(index - 1);
                         break;
@@ -228,8 +231,11 @@ namespace Garage_Manager
             {
                 if (_handler.GetAllGarages().Count() < 2)
                 {
-                    _userInterface.PrintMessage(Message.ListOnlyOneGarage);
-                    index = 0;
+                    if (index != 0)
+                    {
+                        _userInterface.PrintMessage(Message.ListOnlyOneGarage);
+                        index = 0;
+                    }
                 }
                 else if (index is null)
                 {
@@ -249,7 +255,7 @@ namespace Garage_Manager
         {
             _userInterface.PrintMessage(Message.RemoveVehicle);
             string input = _userInterface.GetValidInput();
-            if (_handler.GetGarage(index)!.Remove(input))
+            if (_handler.RemoveVehicle(index, input, _userInterface.CheckIfSameString))
             {
                 _userInterface.PrintMessage(Message.VehicleRemoved(input));
             }
@@ -369,7 +375,7 @@ namespace Garage_Manager
                         break;
 
                     case "3":
-                        vehicles = SelectByInteger(vehicles, "size as number of parking spots");
+                        vehicles = SelectByInteger(vehicles, "length in meters");
                         break;
 
                     case "4":
@@ -446,6 +452,8 @@ namespace Garage_Manager
                     _userInterface.PrintMessage(Message.SpecificVehicleEqualUpperOrLower(property));
                     _userInterface.PrintMessage(Environment.NewLine);
                     input = _userInterface.GetValidInt();
+                    // ToDo: Last-minute solution! Was trying to reduce unnecessary code...
+                    if (property == "number of wheels")
                     switch (input)
                     {
                         case 1:
@@ -460,6 +468,20 @@ namespace Garage_Manager
                             return vehicles.Where(vehicle => vehicle.GetVehicleInformation().NumberOfWheels >= input)
                                            .Select(v => v);
                     }
+                    else switch (input)
+                    {
+                        case 1:
+                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().Size == input)
+                                           .Select(v => v);
+
+                        case 2:
+                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().Size <= input)
+                                           .Select(v => v);
+
+                        case 3:
+                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().Size >= input)
+                                           .Select(v => v);
+                        }
                     _userInterface.PrintMessage(Message.InputNotValid);
                 }
                 else if (input == 0) return vehicles;
@@ -504,7 +526,9 @@ namespace Garage_Manager
                     _userInterface.PrintMessage(Message.ReadAddingContents);
                     AddContentsFromFile();
                 }
+                else _userInterface.PrintMessage(Message.ReadNotAddingContents);
             }
+            _userInterface.PrintMessage("");
         }
 
         private bool ReadFromFile()

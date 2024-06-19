@@ -85,10 +85,10 @@ namespace Garage_Manager_Tests
             IVehicle[] cars1 = [car1, car2];
             IVehicle[] cars2 = [car3, car4];
 
-            string expected = "Garage 1:" + Environment.NewLine +
+            string expected = "Garage 1" + Environment.NewLine +
                               car1.GetVehicleInformation().ToString() + Environment.NewLine + Environment.NewLine +
                               car2.GetVehicleInformation().ToString() + Environment.NewLine + Environment.NewLine + Environment.NewLine +
-                              "Garage 2:" + Environment.NewLine +
+                              "Garage 2" + Environment.NewLine +
                               car3.GetVehicleInformation().ToString() + Environment.NewLine + Environment.NewLine +
                               car4.GetVehicleInformation().ToString();
 

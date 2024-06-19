@@ -58,7 +58,7 @@ namespace Garage_Manager
                 $"Vehicle type:  {Vehicletype}" + Environment.NewLine +
                 $"License number: {LicenseNumber} " + Environment.NewLine + 
                 $"Color: {Color}" + Environment.NewLine +
-                $"Size as number of parking spaces it requires: {Size}" + Environment.NewLine +
+                $"Length in meters: {Size}" + Environment.NewLine +
                 $"Number of wheels: {NumberOfWheels}" + Environment.NewLine +
                 $"Number of seats: {NumberOfSeats}" + Environment.NewLine +
                 $"Fuel type: {FuelType}" + Environment.NewLine));

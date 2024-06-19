@@ -36,6 +36,7 @@ namespace Garage_Manager
             int excepctionCounter = 0;
             do
             {
+                if (excepctionCounter > 0) PrintMessage(Message.InputNotValid);
                 result = GetInput(inputMethod) ?? "";
                 if (excepctionCounter > 100) throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
                 if (result is null) PrintMessage(Message.InputNotValid);

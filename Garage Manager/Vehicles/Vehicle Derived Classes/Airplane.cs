@@ -11,27 +11,12 @@ namespace Garage_Manager
     {
         private int _rangeInKilometres;
 
-        public Airplane(string licensenumber, Color color, int numberOfSeats, int size, int rangeInKilometres) : base(VehicleType.Airplane, licensenumber, color, size, 3)
+        public Airplane(string licensenumber, Color color, int numberOfSeats = 60, int size = 60, int rangeInKilometres = 5000) :
+            base(VehicleType.Airplane, licensenumber, color, size, numberOfWheels: 3, fuelType: FuelType.Kerosene)
         {
             // Setting additional properties.
-            _numberOfSeats = numberOfSeats;
             _rangeInKilometres = rangeInKilometres;
-            _fuelType = FuelType.Kerosene;
-            string[] properties = [$"Number of seats: {_numberOfSeats}",
-                                   $"Range in kilometres: {_rangeInKilometres}",
-                                   $"Fuel type: {_fuelType}"];
-            _vehicleInformation.SetAdditionalProperties(properties);
-        }
-
-        public Airplane(string licensenumber, Color color) : base(VehicleType.Airplane, licensenumber, color, 30, 3)
-        {
-            // Setting additional properties.
-            _numberOfSeats = 60;
-            _rangeInKilometres = 5000;
-            _fuelType = FuelType.Kerosene;
-            string[] properties = [$"Number of seats: {_numberOfSeats}",
-                                   $"Range in kilometres: {_rangeInKilometres}",
-                                   $"Fuel type: {_fuelType}"];
+            string[] properties = [$"Range in kilometres: {_rangeInKilometres}"];
             _vehicleInformation.SetAdditionalProperties(properties);
         }
     }

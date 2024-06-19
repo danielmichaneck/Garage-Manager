@@ -11,17 +11,21 @@ namespace Garage_Manager
     {
         protected VehicleInformation _vehicleInformation;
 
-        protected FuelType _fuelType;
-        protected int _numberOfSeats;
-
-        public Vehicle(VehicleType vehicleType, string licenseNumber, Color color, int size, int numberOfWheels)
+        public Vehicle(VehicleType vehicleType,
+                       string licenseNumber,
+                       Color color,
+                       int size,
+                       int numberOfWheels,
+                       int numberOfSeats = 5,
+                       FuelType fuelType = FuelType.Gasoline)
         {
             _vehicleInformation = new(vehicleType,
                                       licenseNumber,
                                       color,
                                       size,
                                       numberOfWheels,
-                                      FuelType.Gasoline);
+                                      numberOfSeats,
+                                      fuelType);
         }
 
         VehicleInformation IVehicle.GetVehicleInformation()

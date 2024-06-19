@@ -12,7 +12,7 @@ namespace Garage_Manager
         public static string Start => "Please select an option from the menu." + Environment.NewLine +
             "0. Exit the application." + Environment.NewLine +
             "1. Read data from a file." + Environment.NewLine +
-            "2. Create a new garage." + Environment.NewLine +
+            "2. Add a new garage." + Environment.NewLine +
             "3. List all vehicles in all garages." + Environment.NewLine +
             "4. List all vehicles in a specific garage." + Environment.NewLine +
             "5. List specific vehicles in all garages.";
@@ -58,7 +58,8 @@ namespace Garage_Manager
                                                             "1. Vehicle type." + Environment.NewLine +
                                                             "2. Color." + Environment.NewLine +
                                                             "3. Size as number of parking spots it uses." + Environment.NewLine +
-                                                            "4. Number of wheels." + Environment.NewLine;
+                                                            "4. Number of wheels." + Environment.NewLine +
+                                                            "5. Fuel type." + Environment.NewLine;
         public static string SpecificVehicleEnterProperty(string property) => $"Which {property} would you like to select by?" + Environment.NewLine +
                                                                                "Enter 0 to return to the previous menu without making a selection." + Environment.NewLine;
         public static string SpecificVehicleEqualUpperOrLower(string property) => $"Would you like to include vehicles with {property} equal to your input," + Environment.NewLine +

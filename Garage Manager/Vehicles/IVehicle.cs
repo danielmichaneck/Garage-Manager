@@ -8,7 +8,10 @@ namespace Garage_Manager
 {
     internal interface IVehicle
     {
+        public static FuelType[] FuelTypes = [FuelType.Gasoline, FuelType.Diesel, FuelType.Kerosene];
+
         public static VehicleType[] VehicleTypes = [VehicleType.Car, VehicleType.Airplane];
+
         public static VehicleType? GetVehicleType(string vehicleTypeAsString,
                                            Func<string, string, bool> compareStringsFunc)
         {
@@ -21,6 +24,7 @@ namespace Garage_Manager
             }
             return null;
         }
+
         internal VehicleInformation GetVehicleInformation();
     }
 }

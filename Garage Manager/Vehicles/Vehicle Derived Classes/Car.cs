@@ -11,27 +11,12 @@ namespace Garage_Manager
     {
         private int _numberOfGears;
 
-        public Car(string licensenumber, Color color, int numberOfSeats, int numberOfGears) : base(VehicleType.Car, licensenumber, color, 1, 4)
+        public Car(string licensenumber, Color color, int numberOfSeats = 5, int numberOfGears = 5) :
+            base(VehicleType.Car, licensenumber, color, 1, 4, fuelType: FuelType.Gasoline)
         {
             // Additional properties
-            _numberOfSeats = numberOfSeats;
             _numberOfGears = numberOfGears;
-            _fuelType = FuelType.Gasoline;
-            string[] properties = [$"Number of seats: {_numberOfSeats}",
-                                    $"Number of gears: {_numberOfGears}",
-                                   $"Fuel type: {_fuelType}"];
-            _vehicleInformation.SetAdditionalProperties(properties);
-        }
-
-        public Car(string licensenumber, Color color) : base(VehicleType.Car, licensenumber, color, 1, 4)
-        {
-            // Additional properties
-            _numberOfSeats = 5;
-            _numberOfGears = 5;
-            _fuelType = FuelType.Gasoline;
-            string[] properties = [$"Number of seats: {_numberOfSeats}",
-                                    $"Number of gears: {_numberOfGears}",
-                                   $"Fuel type: {_fuelType}"];
+            string[] properties = [$"Number of gears: {_numberOfGears}"];
             _vehicleInformation.SetAdditionalProperties(properties);
         }
     }

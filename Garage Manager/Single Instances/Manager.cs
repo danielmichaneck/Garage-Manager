@@ -126,7 +126,7 @@ namespace Garage_Manager
                 int i = 1;
                 foreach (VehicleType vehicleType in IVehicle.VehicleTypes)
                 {
-                    _userInterface.PrintMessage($"{i}. {IVehicle.VehicleTypes[i - 1]})" + Environment.NewLine);
+                    _userInterface.PrintMessage($"{i}. {IVehicle.VehicleTypes[i - 1]}." + Environment.NewLine);
                     i++;
                 }
                 _userInterface.PrintMessage(Environment.NewLine);
@@ -196,6 +196,29 @@ namespace Garage_Manager
             throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
         }
 
+        private IEnumerable<IVehicle> SelectByFuelType(IEnumerable<IVehicle> vehicles)
+        {
+            int repeats = 0;
+            do
+            {
+                _userInterface.PrintMessage(Message.SpecificVehicleEnterProperty("fuel type"));
+                int i = 1;
+                foreach (FuelType fuelType in IVehicle.FuelTypes)
+                {
+                    _userInterface.PrintMessage($"{i}. {IVehicle.FuelTypes[i - 1]}." + Environment.NewLine);
+                    i++;
+                }
+                _userInterface.PrintMessage(Environment.NewLine);
+                int input = _userInterface.GetValidInt();
+                if (input > 0 && input <= IVehicle.FuelTypes.Count())
+                    return vehicles.Where(vehicle => vehicle.GetVehicleInformation().FuelType == IVehicle.FuelTypes[input - 1])
+                                   .Select(v => v);
+                else if (input == 0) return vehicles;
+                repeats++;
+            } while (repeats < 100);
+            throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
+        }
+
         private void ListSpecificVehiclesInAllGarages()
         {
             _userInterface.ClearOutput();
@@ -233,6 +256,10 @@ namespace Garage_Manager
 
                     case "4":
                         vehicles = SelectByInteger(vehicles, "number of wheels");
+                        break;
+
+                    case "5":
+                        vehicles = SelectByFuelType(vehicles);
                         break;
                 }
             } while (loop);

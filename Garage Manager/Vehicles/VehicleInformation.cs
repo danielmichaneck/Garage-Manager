@@ -14,16 +14,24 @@ namespace Garage_Manager
         public readonly Color Color;
         public readonly int Size;
         public readonly int NumberOfWheels;
+        public readonly int NumberOfSeats;
         public readonly FuelType FuelType;
         private string[]? _additionalProperties;
 
-        public VehicleInformation(VehicleType vehicleType, string licenseNumber, Color color, int size, int numberOfWheels, FuelType fuelType)
+        public VehicleInformation(VehicleType vehicleType,
+                                  string licenseNumber,
+                                  Color color,
+                                  int size,
+                                  int numberOfWheels,
+                                  int numberOfSeats,
+                                  FuelType fuelType)
         {
             Vehicletype = vehicleType;
             LicenseNumber = licenseNumber;
             Color = color;
             Size = size;
             NumberOfWheels = numberOfWheels;
+            NumberOfSeats = numberOfSeats;
             FuelType = fuelType;
         }
 
@@ -51,7 +59,9 @@ namespace Garage_Manager
                 $"License number: {LicenseNumber} " + Environment.NewLine + 
                 $"Color: {Color}" + Environment.NewLine +
                 $"Size as number of parking spaces it requires: {Size}" + Environment.NewLine +
-                $"Number of wheels: {NumberOfWheels}" + Environment.NewLine));
+                $"Number of wheels: {NumberOfWheels}" + Environment.NewLine +
+                $"Number of seats: {NumberOfSeats}" + Environment.NewLine +
+                $"Fuel type: {FuelType}" + Environment.NewLine));
             if (_additionalProperties is not null)
             {
                 for (int i = 0; i < _additionalProperties.Length; i++)

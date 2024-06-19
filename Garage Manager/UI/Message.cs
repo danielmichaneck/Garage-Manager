@@ -15,7 +15,10 @@ namespace Garage_Manager
             "2. Add a new garage." + Environment.NewLine +
             "3. List all vehicles in all garages." + Environment.NewLine +
             "4. List all vehicles in a specific garage." + Environment.NewLine +
-            "5. List specific vehicles in all garages.";
+            "5. List specific vehicles in all garages." + Environment.NewLine +
+            "6. Add a new vehicle to a garage." + Environment.NewLine +
+            "7. List all garages.";
+        
         // File read/write
         public static string ReadSuccess => "The file \"SavedList\" was successfully found in the .exe directory.";
         public static string ReadNotFound => "The file \"SavedList\" was not found in the .exe directory.";
@@ -29,6 +32,10 @@ namespace Garage_Manager
         public static string CreateGarageSize => "Please enter how many parking spots you would like in the garage.";
         public static string PopulateGarage => "Would you like to populate the garage from the start?";
         public static string NumberOfVehicles => "How many vehicles would you like to add to the garage?";
+        public static string NumberOfVehiclesTooMany => "You entered a number of vehicles that is larger than the size of the garage.";
+        public static string AllPropertiesOfVehicles => "Would you like to set all the properties of the vehicle?" + Environment.NewLine +
+                                                        "If you answer no you will only set the vehicle type, license number, and color.";
+        public static string SetPropertyOfVehicle(string property, string type) => $"Please enter the {property} as {type}.";
         public static string GarageCreated(int spots) => $"You have created a garage with {spots} parking spots.";
         public static string GarageCreated(int spots, int vehicles) => $"You have created a garage with {spots} parking spots and {vehicles} vehicles in it.";
 
@@ -40,19 +47,33 @@ namespace Garage_Manager
         public static string InputVehicleColor => "Please enter the name of the vehicle's color.";
         public static string InputVehicleColorNotRecognized() => $"The color was not recognized.";
 
+        // Create vehicle special
+        public static string InputVehicleFuelType => "Please enter the fuel type of the vehicle.";
+        public static string InputVehicleSizeProperty => $"Please enter the number of parking spots the vehicle requires.";
+        public static string InputVehicleIntegerProperty(string property) => $"Please enter the {property} of the vehicle.";
+
+        // Add vehicle
+        public static string AddVehicleWhichGarage(int min, int max) => $"Please enter the garage ({min}-{max}) you would like to add the vehicle to.";
+        public static string AddVehicleIsNull => "The vehicle was not a valid instance.";
+        public static string AddVehicleGarageDoesNotExist(int index) => $"Garage {index} does not exist.";
+        public static string AddVehicleSuccess(string licenseNumber, int index) => $"A vehicle with license number {licenseNumber} was added to garage {index}.";
+
         // UI Input
         public static string InputValidBool => "Please input yes to accept or no to reject.";
         public static string InputValidInt => "Please input an integer value.";
         public static string InputNotValid => "Your input was not recognized. Please try again.";
 
-        // Listing all vehicles
+        // List all garages
+
+
+        // List all vehicles
         public static string ListSpecificGarage(int min, int max) => $"Please input which garage ({min}-{max}) you would like to access.";
         public static string ListSpecificGarageDoesNotExist => "The garage you are trying to access does not exist.";
         public static string ListNoGarages => "There are no garages in memory.";
         public static string ListOnlyOneGarage => "There is only one garage in memory.";
         public static string ListEmptyGarage => "The garage is empty.";
 
-        // Listing specific vehicles
+        // List specific vehicles
         public static string SpecificVehicleByProperty() => "Which property would you like to select by?" + Environment.NewLine +
                                                             "0. Finish selection and move on to result." + Environment.NewLine +
                                                             "1. Vehicle type." + Environment.NewLine +

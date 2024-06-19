@@ -10,7 +10,7 @@ namespace Garage_Manager
     {
         public static FuelType[] FuelTypes = [FuelType.Gasoline, FuelType.Diesel, FuelType.Kerosene];
 
-        public static VehicleType[] VehicleTypes = [VehicleType.Car, VehicleType.Airplane, VehicleType.Motorcycle];
+        public static VehicleType[] VehicleTypes = [VehicleType.Car, VehicleType.Airplane, VehicleType.Motorcycle, VehicleType.Trike];
 
         public static VehicleType? GetVehicleType(string vehicleTypeAsString,
                                            Func<string, string, bool> compareStringsFunc)

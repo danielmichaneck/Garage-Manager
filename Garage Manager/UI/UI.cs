@@ -150,6 +150,7 @@ namespace Garage_Manager
         public void ClearOutput()
         {
             _clearMethod.Invoke();
+            PrintMessage("___________________________________________________");
         }
     }
 }

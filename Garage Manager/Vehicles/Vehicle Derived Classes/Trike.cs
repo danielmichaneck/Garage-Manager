@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Garage_Manager
 {
-    internal class Motorcycle : Vehicle
+    internal class Trike : Vehicle
     {
         private int _numberOfGears;
         private int _rimSizeInInches;
 
-        public Motorcycle(string licensenumber, Color color, int numberOfSeats = 1, int numberOfGears = 5, int rimSizeInInches = 20) :
-            base(VehicleType.Motorcycle, licensenumber, color, size: 1, numberOfWheels: 2, numberOfSeats: numberOfSeats, fuelType: FuelType.Gasoline)
+        public Trike(string licensenumber, Color color, int numberOfSeats = 1, int numberOfGears = 5, int rimSizeInInches = 20) :
+            base(VehicleType.Trike, licensenumber, color, size: 1, numberOfWheels: 3, numberOfSeats: numberOfSeats, fuelType: FuelType.Gasoline)
         {
             // Additional properties
             _numberOfGears = numberOfGears;

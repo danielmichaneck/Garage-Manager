@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,6 +55,10 @@ namespace Garage_Manager
                     break;
 
                 case "2":
+                    WriteToFile();
+                    break;
+
+                case "10":
                     CreateNewGarage();
                     break;
 
@@ -68,7 +73,20 @@ namespace Garage_Manager
                 case "5":
                     ListSpecificVehiclesInAllGarages();
                     break;
+
+                case "6":
+                    CreateNewVehicle();
+                    break;
+
+                case "7":
+                    ListAllGarages();
+                    break;
             }
+        }
+
+        private void ListAllGarages()
+        {
+            _handler.ListAllGarages(_userInterface.PrintMessage);
         }
 
         private void CreateNewGarage()
@@ -81,12 +99,41 @@ namespace Garage_Manager
                                   _userInterface.CheckIfSameString);
         }
 
+        private void CreateNewVehicle()
+        {
+            _userInterface.ClearOutput();
+            if (_handler.GetAllGarages().Count() < 1)
+            {
+                _userInterface.PrintMessage(Message.ListNoGarages);
+            }
+            else
+            {
+                int index;
+                if (_handler.GetAllGarages().Count() < 2)
+                {
+                    _userInterface.PrintMessage(Message.ListOnlyOneGarage);
+                    index = 0;
+                }
+                else
+                {
+                    _userInterface.PrintMessage(Message.AddVehicleWhichGarage(1, _handler.GetAllGarages().Count()));
+                    index = _userInterface.GetValidInt() - 1;
+                }
+                IVehicle vehicle = _handler.CreateVehicle(_userInterface.PrintMessage,
+                                                          _userInterface.GetValidInput,
+                                                          _userInterface.GetValidInt,
+                                                          _userInterface.GetValidBool,
+                                                          _userInterface.CheckIfSameString);
+                _handler.AddVehicleToGarage(vehicle, index, _userInterface.PrintMessage);
+            }
+        }
+
         private void ListAllVehiclesInAllGarages()
         {
             _userInterface.ClearOutput();
             _userInterface.PrintMessage(Environment.NewLine +
-                                                _handler.ListAllVehiclesInAllGarages() +
-                                                Environment.NewLine);
+                                        _handler.ListAllVehiclesInAllGarages() +
+                                        Environment.NewLine);
         }
 
         private void ListSpecificGarage()
@@ -115,6 +162,58 @@ namespace Garage_Manager
             _userInterface.PrintMessage(Environment.NewLine +
                                         _handler.ListAllVehiclesInGarage(input - 1) +
                                         Environment.NewLine);
+        }
+
+        private void ListSpecificVehiclesInAllGarages()
+        {
+            _userInterface.ClearOutput();
+            // Gets all vehicles.
+            List<IVehicle> vehicleList = new List<IVehicle>();
+            foreach (IGarage<IVehicle> garage in _handler.GetAllGarages())
+            {
+                foreach (IVehicle vehicle in garage)
+                    vehicleList.Add(vehicle);
+            }
+            var vehicles = vehicleList.Select(v => v);
+            // Gets index.
+            bool loop = true;
+            do
+            {
+                _userInterface.PrintMessage(Message.SpecificVehicleByProperty());
+                string input = _userInterface.GetValidInput();
+                switch (input)
+                {
+                    case "0":
+                        loop = false;
+                        break;
+
+                    case "1":
+                        vehicles = SelectByVehicleType(vehicles);
+                        break;
+
+                    case "2":
+                        vehicles = SelectByColor(vehicles);
+                        break;
+
+                    case "3":
+                        vehicles = SelectByInteger(vehicles, "size as number of parking spots");
+                        break;
+
+                    case "4":
+                        vehicles = SelectByInteger(vehicles, "number of wheels");
+                        break;
+
+                    case "5":
+                        vehicles = SelectByFuelType(vehicles);
+                        break;
+                }
+            } while (loop);
+            // Prints output
+            _userInterface.ClearOutput();
+            foreach (IVehicle vehicle in vehicles)
+            {
+                _userInterface.PrintMessage(vehicle.GetVehicleInformation().ToString() + Environment.NewLine);
+            }
         }
 
         private IEnumerable<IVehicle> SelectByVehicleType(IEnumerable<IVehicle> vehicles)
@@ -174,7 +273,7 @@ namespace Garage_Manager
                     _userInterface.PrintMessage(Message.SpecificVehicleEqualUpperOrLower(property));
                     _userInterface.PrintMessage(Environment.NewLine);
                     input = _userInterface.GetValidInt();
-                    switch(input)
+                    switch (input)
                     {
                         case 1:
                             return vehicles.Where(vehicle => vehicle.GetVehicleInformation().NumberOfWheels == input)
@@ -219,58 +318,6 @@ namespace Garage_Manager
             throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
         }
 
-        private void ListSpecificVehiclesInAllGarages()
-        {
-            _userInterface.ClearOutput();
-            // Gets all vehicles.
-            List<IVehicle> vehicleList = new List<IVehicle>();
-            foreach (IGarage<IVehicle> garage in _handler.GetAllGarages())
-            {
-                foreach (IVehicle vehicle in garage)
-                    vehicleList.Add(vehicle);
-            }
-            var vehicles = vehicleList.Select(v => v);
-            // Gets input.
-            bool loop = true;
-            do
-            {
-                _userInterface.PrintMessage(Message.SpecificVehicleByProperty());
-                string input = _userInterface.GetValidInput();
-                switch (input)
-                {
-                    case "0":
-                        loop = false;
-                        break;
-
-                    case "1":
-                        vehicles = SelectByVehicleType(vehicles);
-                        break;
-
-                    case "2":
-                        vehicles = SelectByColor(vehicles);
-                        break;
-
-                    case "3":
-                        vehicles = SelectByInteger(vehicles, "size as number of parking spots");
-                        break;
-
-                    case "4":
-                        vehicles = SelectByInteger(vehicles, "number of wheels");
-                        break;
-
-                    case "5":
-                        vehicles = SelectByFuelType(vehicles);
-                        break;
-                }
-            } while (loop);
-            // Prints output
-            _userInterface.ClearOutput();
-            foreach (IVehicle vehicle in vehicles)
-            {
-                _userInterface.PrintMessage(vehicle.GetVehicleInformation().ToString() + Environment.NewLine);
-            }
-        }
-
         private void ReadFromFileStart()
         {
             _userInterface.ClearOutput();
@@ -296,6 +343,26 @@ namespace Garage_Manager
                 _fileContents = File.ReadAllLines(path);
                 if (_fileContents is not null && !String.IsNullOrWhiteSpace(_fileContents[0])) _fileReadSuccessfully = true;
                 else _userInterface.PrintMessage(Message.ReadNull);
+            }
+            else _userInterface.PrintMessage(Message.ReadNotFound);
+            if (_fileReadSuccessfully)
+            {
+                _userInterface.PrintMessage(Message.ReadSuccess);
+                return true;
+            }
+            return false;
+        }
+
+        private bool WriteToFile()
+        {
+            string directory = Directory.GetCurrentDirectory();
+            string path = directory + @"\SavedList.txt";
+            if (File.Exists(path))
+            {
+                //_fileContents = File.ReadAllLines(path);
+                //if (_fileContents is not null && !String.IsNullOrWhiteSpace(_fileContents[0])) _fileReadSuccessfully = true;
+                //else _userInterface.PrintMessage(Message.ReadNull);
+                File.Create(path).Close();
             }
             else _userInterface.PrintMessage(Message.ReadNotFound);
             if (_fileReadSuccessfully)

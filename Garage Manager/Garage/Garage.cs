@@ -25,8 +25,13 @@ namespace Garage_Manager
 
         public Garage(int size, T[] initList)
         {
-            _list = initList;
+            _list = new T[size];
             _occupied = new bool[initList.Length];
+            for (int i = 0; i < initList.Length; i++)
+            {
+                _list[i] = initList[i];
+                _occupied[i] = true;
+            }
         }
 
         bool IGarage<T>.Add(T add)

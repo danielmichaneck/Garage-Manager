@@ -134,5 +134,67 @@ namespace Garage_Manager_Tests
             // Assert
             Assert.False(expectedFalse);
         }
+
+        [Fact]
+        public void Garage_Enumerator_Test_Initialize_With_Vehicles()
+        {
+            // Arrange
+            bool expectedTrue;
+
+            IVehicle car1 = new Car("ABC 123", Color.Green);
+            IVehicle car2 = new Car("ABC 245", Color.Red);
+            IVehicle[] cars = [car1, car2];
+
+            IGarage<IVehicle> garage = new Garage<IVehicle>(2, cars);
+
+            // Act
+            expectedTrue = garage.Remove(car2.GetVehicleInformation().LicenseNumber);
+
+            // Assert
+            Assert.True(expectedTrue);
+        }
+
+        [Fact]
+        public void Garage_Enumerator_Test_Count()
+        {
+            // Arrange
+            bool expectedTrue;
+
+            IVehicle car1 = new Car("ABC 123", Color.Green);
+            IVehicle car2 = new Car("ABC 245", Color.Red);
+
+            // Act
+            IGarage<IVehicle> garage = new Garage<IVehicle>(4);
+
+            garage.Add(car1);
+            garage.Add(car2);
+
+            expectedTrue = (garage.Count() == 2);
+
+            // Assert
+            Assert.True(expectedTrue);
+        }
+
+        [Fact]
+        public void Garage_Enumerator_Test_Enumerate()
+        {
+            // Arrange
+            int result = 0;
+            bool expectedTrue;
+
+            IVehicle car1 = new Car("ABC 123", Color.Green);
+            IVehicle car2 = new Car("ABC 245", Color.Red);
+            IVehicle[] cars = [car1, car2];
+            IGarage<IVehicle> garage = new Garage<IVehicle>(2, cars);
+
+            // Act
+            foreach (IVehicle car in garage)
+                result++;
+
+            expectedTrue = (result == 2);
+
+            // Assert
+            Assert.True(expectedTrue);
+        }
     }
 }

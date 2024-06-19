@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Garage_Manager
 {
+    // A struct that contains public static strings that any part
+    // of the program can access.
     public struct Message
     {
         // Main menu

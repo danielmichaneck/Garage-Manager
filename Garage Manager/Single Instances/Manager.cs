@@ -71,13 +71,135 @@ namespace Garage_Manager
                     break;
 
                 case "6":
-                    CreateNewGarage();
+                    ListSpecificVehiclesInSpecificGarage();
                     break;
 
                 case "7":
-                    CreateNewVehicle();
+                    CreateNewGarage();
+                    break;
+
+                case "8":
+                    AccessGarage();
+                    break;
+
+                case "9":
+                    FindVehicle();
                     break;
             }
+        }
+
+        private int CheckNumberOfGarages()
+        {
+            _userInterface.ClearOutput();
+            if (_handler.Count() == 0)
+            {
+                _userInterface.PrintMessage(Environment.NewLine + Message.ListNoGarages);
+                return 0;
+            }
+            else if (_handler.Count() == 1)
+            {
+                _userInterface.PrintMessage(Environment.NewLine +
+                                            Message.ListOnlyOneGarage +
+                                            Environment.NewLine);
+                return 1;
+            }
+            return _handler.Count();
+        }
+
+        private void AccessGarage()
+        {
+            int numberOfGarages = CheckNumberOfGarages();
+            if (numberOfGarages < 1)
+            {
+                _userInterface.PrintMessage(Message.ListNoGarages);
+                return;
+            }
+            IGarage<IVehicle>? garage;
+            int index = 1;
+            if (numberOfGarages == 1) garage = _handler.GetGarage(0)!;
+            else
+            {
+                _userInterface.PrintMessage(Message.ListSpecificGarage(1, numberOfGarages));
+                index = _userInterface.GetValidInt();
+                garage = _handler.GetGarage(index - 1);
+            }
+            if (garage is null)
+            {
+                _userInterface.PrintMessage(Message.ListSpecificGarageDoesNotExist);
+                return;
+            }
+            GarageMenu(index);
+        }
+
+        private void GarageMenu(int index)
+        {
+            bool loop = true;
+            do
+            {
+                _userInterface.PrintMessage(Message.GarageAccessed(index));
+                int input = _userInterface.GetValidInt();
+                _userInterface.ClearOutput();
+                switch (input)
+                {
+                    case 0:
+                        _userInterface.ClearOutput();
+                        loop = false;
+                        break;
+
+                    case 1:
+                        _userInterface.ClearOutput();
+                        _userInterface.PrintMessage(Message.AccessingGarage(index));
+                        _handler.ListAllVehiclesInGarage(index - 1);
+                        break;
+
+                    case 2:
+                        _userInterface.ClearOutput();
+                        _userInterface.PrintMessage(Message.AccessingGarage(index));
+                        CreateNewVehicle(index - 1);
+                        break;
+
+                    case 3:
+                        _userInterface.ClearOutput();
+                        _userInterface.PrintMessage(Message.AccessingGarage(index));
+                        RemoveVehicle(index - 1);
+                        break;
+                }
+            } while (loop);
+        }
+
+        private void FindVehicle()
+        {
+            if (CheckNumberOfGarages() > 0)
+            {
+                _userInterface.PrintMessage(Message.FindVehicle);
+                string input = _userInterface.GetValidInput();
+                IVehicle? vehicle = FindVehicleSearch(input, out int garageNumber);
+                if (vehicle is not null)
+                {
+                    _userInterface.PrintMessage(Message.VehicleFound(garageNumber + 1) +
+                                                Environment.NewLine +
+                                                vehicle.GetVehicleInformation().ToString() +
+                                                Environment.NewLine);
+                }
+                else _userInterface.PrintMessage(Message.VehicleNotFound);
+            }
+        }
+
+        private IVehicle? FindVehicleSearch(string input, out int garageNumber)
+        {
+            garageNumber = 0;
+            foreach(IGarage<IVehicle> garage in _handler.GetAllGarages())
+            {
+                foreach(IVehicle vehicle in garage)
+                {
+                    if (_userInterface.CheckIfSameString(input, vehicle.GetVehicleInformation().LicenseNumber))
+                    {
+                        return vehicle;
+                    }
+                }
+                garageNumber++;
+            }
+            return null;
         }
 
         private void ListAllGarages()
@@ -95,7 +217,7 @@ namespace Garage_Manager
                                   _userInterface.CheckIfSameString);
         }
 
-        private void CreateNewVehicle()
+        private void CreateNewVehicle(int? index = null)
         {
             _userInterface.ClearOutput();
             if (_handler.GetAllGarages().Count() < 1)
@@ -104,13 +226,12 @@ namespace Garage_Manager
             }
             else
             {
-                int index;
                 if (_handler.GetAllGarages().Count() < 2)
                 {
                     _userInterface.PrintMessage(Message.ListOnlyOneGarage);
                     index = 0;
                 }
-                else
+                else if (index is null)
                 {
                     _userInterface.PrintMessage(Message.AddVehicleWhichGarage(1, _handler.GetAllGarages().Count()));
                     index = _userInterface.GetValidInt() - 1;
@@ -120,8 +241,19 @@ namespace Garage_Manager
                                                           _userInterface.GetValidInt,
                                                           _userInterface.GetValidBool,
                                                           _userInterface.CheckIfSameString);
-                _handler.AddVehicleToGarage(vehicle, index, _userInterface.PrintMessage);
+                _handler.AddVehicleToGarage(vehicle, (int)index, _userInterface.PrintMessage);
             }
+        }
+
+        private void RemoveVehicle(int index)
+        {
+            _userInterface.PrintMessage(Message.RemoveVehicle);
+            string input = _userInterface.GetValidInput();
+            if (_handler.GetGarage(index)!.Remove(input))
+            {
+                _userInterface.PrintMessage(Message.VehicleRemoved(input));
+            }
+            else _userInterface.PrintMessage(Message.VehicleRemoveFailed(input));
         }
 
         private void ListAllVehiclesInAllGarages()
@@ -148,14 +280,15 @@ namespace Garage_Manager
                                             Environment.NewLine);
                 return;
             }
-            _userInterface.PrintMessage(Message.ListSpecificGarage(1, _handler.Count()));
+            _userInterface.PrintMessage(Message.ListSpecificGarage(1, _handler.Count()) +
+                                        Environment.NewLine);
             int input = _userInterface.GetValidInt();
             if (input < 1 || input > _handler.Count())
             {
                 _userInterface.PrintMessage(Environment.NewLine + Message.ListSpecificGarageDoesNotExist);
                 return;
             }
-            _userInterface.PrintMessage(Environment.NewLine +
+            _userInterface.PrintMessage($"Garage {input}" + Environment.NewLine +
                                         _handler.ListAllVehiclesInGarage(input - 1) +
                                         Environment.NewLine);
         }
@@ -165,13 +298,57 @@ namespace Garage_Manager
             _userInterface.ClearOutput();
             // Gets all vehicles.
             List<IVehicle> vehicleList = new List<IVehicle>();
+            if (_handler.GetAllGarages().Count() < 1)
+            {
+                _userInterface.PrintMessage(Message.ListNoGarages);
+                return;
+            }
             foreach (IGarage<IVehicle> garage in _handler.GetAllGarages())
             {
                 foreach (IVehicle vehicle in garage)
                     vehicleList.Add(vehicle);
             }
             var vehicles = vehicleList.Select(v => v);
-            // Gets index.
+            ListSpecificVehiclesInGarage(vehicles);
+        }
+
+        // ToDo: Shares a lot of copy-paste code with ListSpecificGarage(), fix?
+        private void ListSpecificVehiclesInSpecificGarage()
+        {
+            // Sets index.
+            int index = 1;
+            _userInterface.ClearOutput();
+            if (_handler.Count() < 1)
+            {
+                _userInterface.PrintMessage(Environment.NewLine + Message.ListNoGarages);
+                return;
+            }
+            else if (_handler.Count() == 1)
+            {
+                _userInterface.PrintMessage(Environment.NewLine + Message.ListOnlyOneGarage);
+                index = 1;
+            }
+            else
+            {
+                _userInterface.PrintMessage(Message.ListSpecificGarage(1, _handler.Count()) +
+                                            Environment.NewLine);
+                int input = _userInterface.GetValidInt();
+                if (input < 1 || input > _handler.Count())
+                {
+                    _userInterface.PrintMessage(Environment.NewLine + Message.ListSpecificGarageDoesNotExist);
+                    return;
+                }
+                else index = input;
+            }
+            // Gets all vehicles.
+            List<IVehicle> vehicleList = new List<IVehicle>(_handler.GetGarage(index - 1)!);
+            var vehicles = vehicleList.Select(v => v);
+            ListSpecificVehiclesInGarage(vehicles);
+        }
+
+        private void ListSpecificVehiclesInGarage(IEnumerable<IVehicle> vehicles)
+        {
+            // Loops through input and selection.
             bool loop = true;
             do
             {

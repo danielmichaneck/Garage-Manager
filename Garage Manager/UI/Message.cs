@@ -16,10 +16,12 @@ namespace Garage_Manager
             "3. List all vehicles in all garages." + Environment.NewLine +
             "4. List all vehicles in a single garage." + Environment.NewLine +
             "5. List specific vehicles in all garages." + Environment.NewLine +
-            "6. Add a new garage." + Environment.NewLine +
-            "7. Add a new vehicle to a garage.";
+            "6. List specific vehicles in a single garage." + Environment.NewLine +
+            "7. Add a new garage." + Environment.NewLine +
+            "8. Access a specific garage to add or remove vehicles in it." + Environment.NewLine +
+            "9. Find a specific vehicle by its license number." + Environment.NewLine;
         
-        // File read/write
+        // File read
         public static string ReadSuccess => "The file \"SavedList\" was successfully found in the .exe directory.";
         public static string ReadNotFound => "The file \"SavedList\" was not found in the .exe directory.";
         public static string ReadNull => "The file \"SavedList\" was found in the .exe directory but was empty.";
@@ -45,7 +47,18 @@ namespace Garage_Manager
         public static string InputVehicleLicenseNumber => "Please enter the vehicle's unique license number.";
         public static string InputVehicleLicenseNumberNotUnique => "Another vehicle already has that license number.";
         public static string InputVehicleColor => "Please enter the name of the vehicle's color.";
-        public static string InputVehicleColorNotRecognized() => $"The color was not recognized.";
+        public static string InputVehicleColorNotRecognized => $"The color was not recognized.";
+
+        // Access garage
+        public static string GarageAccessed(int index) => $"You have accessed garage {index}. Please choose an option." + Environment.NewLine +
+                                                                 "0. Return to the main menu." + Environment.NewLine +
+                                                                 "1. List all vehicles in the garage." + Environment.NewLine +
+                                                                 "2. Park a vehicle in the garage." + Environment.NewLine +
+                                                                 "3. Remove a vehicle from the garage.";
+        public static string AccessingGarage(int index) => $"You are accessing garage {index}.";
+        public static string RemoveVehicle => "Please enter the license number of the vehicle you want to remove from the garage.";
+        public static string VehicleRemoved(string licenseNumber) => $"The vehicle with license number {licenseNumber} has been removed from the garage.";
+        public static string VehicleRemoveFailed(string licenseNumber) => $"No vehicle with the license number {licenseNumber} was found in this garage.";
 
         // Create vehicle special
         public static string InputVehicleFuelType => "Please enter the fuel type of the vehicle.";
@@ -63,8 +76,10 @@ namespace Garage_Manager
         public static string InputValidInt => "Please input an integer value.";
         public static string InputNotValid => "Your input was not recognized. Please try again.";
 
-        // List all garages
-
+        // Find vehicle
+        public static string FindVehicle => "Please enter the license number of the vehicle you wish to find.";
+        public static string VehicleFound(int garageNumber) => $"The vehicle was found in garage {garageNumber}.";
+        public static string VehicleNotFound => $"The vehicle was not found.";
 
         // List all vehicles
         public static string ListSpecificGarage(int min, int max) => $"Please input which garage ({min}-{max}) you would like to access.";

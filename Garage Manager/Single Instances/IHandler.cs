@@ -15,6 +15,7 @@ namespace Garage_Manager
         public GarageList<IGarage<IVehicle>> GetAllGarages();
         public int Count();
         public void ListAllGarages(Action<string> outputAction);
+        public void ListGarage(int index, Action<string> outputAction);
         public string ListAllVehiclesInGarage(int index);
         public string ListAllVehiclesInAllGarages();
         public void CreateGarage(Action<string> outputAction,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -71,6 +72,35 @@ namespace Garage_Manager
                 else outputAction.Invoke(stringBuilder.ToString() + Environment.NewLine);
                 stringBuilder.Clear();
             }
+        }
+
+        // ToDo: Copy-paste from ListAllGarages, re-use code!
+        public void ListGarage(int index, Action<string> outputAction)
+        {
+            StringBuilder stringBuilder = new();
+            int numberOfVehicleType;
+            if (_garages.Get(index) is null)
+            {
+                outputAction.Invoke(Message.ListSpecificGarageDoesNotExist);
+            }
+            outputAction.Invoke($"Garage {index}");
+            foreach (VehicleType vehicleType in IVehicle.VehicleTypes)
+            {
+                numberOfVehicleType = 0;
+                foreach (IVehicle vehicle in _garages.Get(index)!)
+                {
+                    if (vehicle.GetVehicleInformation().Vehicletype == vehicleType)
+                        numberOfVehicleType++;
+                }
+                if (numberOfVehicleType != 0)
+                {
+                    if (stringBuilder.Length > 0) stringBuilder.Append(", ");
+                    stringBuilder.Append($"{vehicleType}s: {numberOfVehicleType}");
+                }
+            }
+            if (stringBuilder.Length < 1)
+                outputAction.Invoke(Message.ListEmptyGarage + Environment.NewLine);
+            else outputAction.Invoke(stringBuilder.ToString() + Environment.NewLine);
         }
 
         private string ListVehicleInformation(IGarage<IVehicle> garage)
@@ -417,7 +447,7 @@ namespace Garage_Manager
             {
                 outputAction.Invoke(Message.InputVehicleColor);
                 color = GetColor(inputFunc.Invoke());
-                if (color is null) outputAction.Invoke(Message.InputVehicleColorNotRecognized());
+                if (color is null) outputAction.Invoke(Message.InputVehicleColorNotRecognized);
                 repeats++;
                 if (repeats >= 100) throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
             } while (color is null);
@@ -506,6 +536,12 @@ namespace Garage_Manager
                 case VehicleType.Trike:
                     return new Trike(licenseNumber, color);
 
+                case VehicleType.Boat:
+                    return new Boat(licenseNumber, color);
+
+                case VehicleType.Bus:
+                    return new Bus(licenseNumber, color);
+
                 default:
                     return new Car(licenseNumber, color);
 
@@ -533,6 +569,12 @@ namespace Garage_Manager
 
                 case VehicleType.Trike:
                     return new Trike(licenseNumber, color, numberOfSeats);
+
+                case VehicleType.Boat:
+                    return new Boat(licenseNumber, color, size, numberOfSeats);
+
+                case VehicleType.Bus:
+                    return new Bus(licenseNumber, color, size, numberOfSeats, fuelType: fuelType);
 
                 default:
                     return new Car(licenseNumber, color);

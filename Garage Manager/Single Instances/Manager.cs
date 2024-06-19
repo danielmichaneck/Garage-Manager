@@ -55,11 +55,7 @@ namespace Garage_Manager
                     break;
 
                 case "2":
-                    WriteToFile();
-                    break;
-
-                case "10":
-                    CreateNewGarage();
+                    ListAllGarages();
                     break;
 
                 case "3":
@@ -75,11 +71,11 @@ namespace Garage_Manager
                     break;
 
                 case "6":
-                    CreateNewVehicle();
+                    CreateNewGarage();
                     break;
 
                 case "7":
-                    ListAllGarages();
+                    CreateNewVehicle();
                     break;
             }
         }
@@ -343,28 +339,6 @@ namespace Garage_Manager
                 _fileContents = File.ReadAllLines(path);
                 if (_fileContents is not null && !String.IsNullOrWhiteSpace(_fileContents[0])) _fileReadSuccessfully = true;
                 else _userInterface.PrintMessage(Message.ReadNull);
-            }
-            else _userInterface.PrintMessage(Message.ReadNotFound);
-            if (_fileReadSuccessfully)
-            {
-                _userInterface.PrintMessage(Message.ReadSuccess);
-                return true;
-            }
-            return false;
-        }
-
-        private bool WriteToFile()
-        {
-            string directory = Directory.GetCurrentDirectory();
-            string path = directory + @"\SavedList.txt";
-            if (File.Exists(path))
-            {
-                //_fileContents = File.ReadAllLines(path);
-                //if (_fileContents is not null && !String.IsNullOrWhiteSpace(_fileContents[0])) _fileReadSuccessfully = true;
-                //else _userInterface.PrintMessage(Message.ReadNull);
-                FileStream fs = File.OpenWrite(path);
-                File.WriteAllText(path, "Hej");
-                fs.Close();
             }
             else _userInterface.PrintMessage(Message.ReadNotFound);
             if (_fileReadSuccessfully)

@@ -12,12 +12,12 @@ namespace Garage_Manager
         public static string Start => "Please select an option from the menu." + Environment.NewLine +
             "0. Exit the application." + Environment.NewLine +
             "1. Read data from a file." + Environment.NewLine +
-            "2. Add a new garage." + Environment.NewLine +
+            "2. List all garages." + Environment.NewLine +
             "3. List all vehicles in all garages." + Environment.NewLine +
-            "4. List all vehicles in a specific garage." + Environment.NewLine +
+            "4. List all vehicles in a single garage." + Environment.NewLine +
             "5. List specific vehicles in all garages." + Environment.NewLine +
-            "6. Add a new vehicle to a garage." + Environment.NewLine +
-            "7. List all garages.";
+            "6. Add a new garage." + Environment.NewLine +
+            "7. Add a new vehicle to a garage.";
         
         // File read/write
         public static string ReadSuccess => "The file \"SavedList\" was successfully found in the .exe directory.";

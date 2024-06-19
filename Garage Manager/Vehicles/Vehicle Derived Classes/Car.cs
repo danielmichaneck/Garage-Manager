@@ -12,7 +12,7 @@ namespace Garage_Manager
         private int _numberOfGears;
 
         public Car(string licensenumber, Color color, int numberOfSeats = 5, int numberOfGears = 5) :
-            base(VehicleType.Car, licensenumber, color, 1, 4, fuelType: FuelType.Gasoline)
+            base(VehicleType.Car, licensenumber, color, 1, 4, numberOfSeats: numberOfSeats, fuelType: FuelType.Gasoline)
         {
             // Additional properties
             _numberOfGears = numberOfGears;

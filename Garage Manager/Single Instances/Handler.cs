@@ -279,6 +279,9 @@ namespace Garage_Manager
                 case VehicleType.Airplane:
                     return new Airplane(licenseNumber, color);
 
+                case VehicleType.Motorcycle:
+                    return new Motorcycle(licenseNumber, color);
+
                 default:
                     return new Car(licenseNumber, color);
 

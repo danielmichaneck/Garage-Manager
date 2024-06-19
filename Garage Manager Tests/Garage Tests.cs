@@ -6,7 +6,7 @@ namespace Garage_Manager_Tests
     public class Garage_Tests
     {
         [Fact]
-        public void Garage_Enumerator_Test_Add()
+        public void Garage_Enumerator_Test_Add_Success()
         {
             // Arrange
             string expected;
@@ -136,7 +136,7 @@ namespace Garage_Manager_Tests
         }
 
         [Fact]
-        public void Garage_Enumerator_Test_Initialize_With_Vehicles()
+        public void Garage_Enumerator_Test_Initialize_With_Vehicles_Success()
         {
             // Arrange
             bool expectedTrue;
@@ -155,7 +155,7 @@ namespace Garage_Manager_Tests
         }
 
         [Fact]
-        public void Garage_Enumerator_Test_Count()
+        public void Garage_Enumerator_Test_Count_Success()
         {
             // Arrange
             bool expectedTrue;
@@ -176,7 +176,7 @@ namespace Garage_Manager_Tests
         }
 
         [Fact]
-        public void Garage_Enumerator_Test_Enumerate()
+        public void Garage_Enumerator_Test_Enumerate_Success()
         {
             // Arrange
             int result = 0;

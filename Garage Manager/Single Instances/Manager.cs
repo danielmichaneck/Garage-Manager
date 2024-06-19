@@ -362,7 +362,9 @@ namespace Garage_Manager
                 //_fileContents = File.ReadAllLines(path);
                 //if (_fileContents is not null && !String.IsNullOrWhiteSpace(_fileContents[0])) _fileReadSuccessfully = true;
                 //else _userInterface.PrintMessage(Message.ReadNull);
-                File.Create(path).Close();
+                FileStream fs = File.OpenWrite(path);
+                File.WriteAllText(path, "Hej");
+                fs.Close();
             }
             else _userInterface.PrintMessage(Message.ReadNotFound);
             if (_fileReadSuccessfully)

@@ -109,7 +109,7 @@ namespace Garage_Manager_Tests
             garage.Add(car1);
             garage.Add(car2);
 
-            expectedTrue = garage.Remove(car2.GetVehicleInformation()._licenseNumber);
+            expectedTrue = garage.Remove(car2.GetVehicleInformation().LicenseNumber);
 
             // Assert
             Assert.True(expectedTrue);
@@ -129,7 +129,7 @@ namespace Garage_Manager_Tests
             // Act
             garage.Add(car1);
 
-            expectedFalse = garage.Remove(car2.GetVehicleInformation()._licenseNumber);
+            expectedFalse = garage.Remove(car2.GetVehicleInformation().LicenseNumber);
 
             // Assert
             Assert.False(expectedFalse);

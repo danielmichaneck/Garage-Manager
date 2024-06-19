@@ -12,11 +12,11 @@ namespace Garage_Manager
         public static VehicleType? GetVehicleType(string vehicleTypeAsString,
                                            Func<string, string, bool> compareStringsFunc)
         {
-            for (int p = 0; p < VehicleTypes.Length; p++)
+            for (int i = 0; i < VehicleTypes.Length; i++)
             {
-                if (compareStringsFunc.Invoke(vehicleTypeAsString, VehicleTypes[p].ToString()))
+                if (compareStringsFunc.Invoke(vehicleTypeAsString, VehicleTypes[i].ToString()))
                 {
-                    return VehicleTypes[p];
+                    return VehicleTypes[i];
                 }
             }
             return null;

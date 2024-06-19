@@ -47,7 +47,7 @@ namespace Garage_Manager
         {
             for (int i = 0; i < _list.Length; i++)
             {
-                if (_occupied[i] && _list[i].GetVehicleInformation()._licenseNumber == licenseNumber)
+                if (_occupied[i] && _list[i].GetVehicleInformation().LicenseNumber == licenseNumber)
                 {
                     _occupied[i] = false;
                     return true;

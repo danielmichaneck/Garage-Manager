@@ -248,7 +248,7 @@ namespace Garage_Manager
             {
                 foreach (IVehicle vehicle in garage)
                 {
-                    if (compareStringsFunc.Invoke(licenseNumber, vehicle.GetVehicleInformation()._licenseNumber))
+                    if (compareStringsFunc.Invoke(licenseNumber, vehicle.GetVehicleInformation().LicenseNumber))
                     {
                         return false;
                     }
@@ -258,7 +258,7 @@ namespace Garage_Manager
             {
                 if (vehicle is not null)
                 {
-                    if (compareStringsFunc.Invoke(licenseNumber, vehicle.GetVehicleInformation()._licenseNumber))
+                    if (compareStringsFunc.Invoke(licenseNumber, vehicle.GetVehicleInformation().LicenseNumber))
                     {
                         return false;
                     }
@@ -273,6 +273,12 @@ namespace Garage_Manager
         {
             switch (vehicleType)
             {
+                case VehicleType.Car:
+                    return new Car(licenseNumber, color);
+
+                case VehicleType.Airplane:
+                    return new Airplane(licenseNumber, color);
+
                 default:
                     return new Car(licenseNumber, color);
 

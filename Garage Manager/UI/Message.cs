@@ -53,8 +53,19 @@ namespace Garage_Manager
         public static string ListEmptyGarage => "The garage is empty.";
 
         // Listing specific vehicles
-        public static string SpecificVehicleByProperty(string property) => $"Would you like to select vehicles by {property}?";
-        public static string SpecificVehicleEnterProperty(string property) => $"Which {property} would you like to select by?";
+        public static string SpecificVehicleByProperty() => "Which property would you like to select by?" + Environment.NewLine +
+                                                            "0. Finish selection and move on to result." + Environment.NewLine +
+                                                            "1. Vehicle type." + Environment.NewLine +
+                                                            "2. Color." + Environment.NewLine +
+                                                            "3. Size as number of parking spots it uses." + Environment.NewLine +
+                                                            "4. Number of wheels." + Environment.NewLine;
+        public static string SpecificVehicleEnterProperty(string property) => $"Which {property} would you like to select by?" + Environment.NewLine +
+                                                                               "Enter 0 to return to the previous menu without making a selection." + Environment.NewLine;
+        public static string SpecificVehicleEqualUpperOrLower(string property) => $"Would you like to include vehicles with {property} equal to your input," + Environment.NewLine +
+                                                                                   "lower than your input, or higher than your input?" + Environment.NewLine +
+                                                                                   "1. Equal." + Environment.NewLine +
+                                                                                   "2. Equal or lower than." + Environment.NewLine +
+                                                                                   "3. Equal or higher than." + Environment.NewLine;
         public static string SpecificVehicleAnotherProperty(string property) => $"Would you like to add another {property} to the selection?";
 
         // Error messages

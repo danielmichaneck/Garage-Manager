@@ -9,20 +9,22 @@ namespace Garage_Manager
 {
     public struct VehicleInformation
     {
-        public readonly VehicleType _vehicletype;
-        public readonly string _licenseNumber;
-        public readonly Color _color;
-        public readonly int _size;
-        public readonly int _numberOfWheels;
+        public readonly VehicleType Vehicletype;
+        public readonly string LicenseNumber;
+        public readonly Color Color;
+        public readonly int Size;
+        public readonly int NumberOfWheels;
+        public readonly FuelType FuelType;
         private string[]? _additionalProperties;
 
-        public VehicleInformation(VehicleType vehicleType, string licenseNumber, Color color, int size, int numberOfWheels)
+        public VehicleInformation(VehicleType vehicleType, string licenseNumber, Color color, int size, int numberOfWheels, FuelType fuelType)
         {
-            _vehicletype = vehicleType;
-            _licenseNumber = licenseNumber;
-            _color = color;
-            _size = size;
-            _numberOfWheels = numberOfWheels;
+            Vehicletype = vehicleType;
+            LicenseNumber = licenseNumber;
+            Color = color;
+            Size = size;
+            NumberOfWheels = numberOfWheels;
+            FuelType = fuelType;
         }
 
         public void SetAdditionalProperties(string additionalProperty)
@@ -45,11 +47,11 @@ namespace Garage_Manager
         public override string ToString()
         {
             var result = new StringBuilder(new string(
-                $"Vehicle type:  {_vehicletype}" + Environment.NewLine +
-                $"License number: {_licenseNumber} " + Environment.NewLine + 
-                $"Color: {_color}" + Environment.NewLine +
-                $"Size as number of parking spaces it requires: {_size}" + Environment.NewLine +
-                $"Number of wheels: {_numberOfWheels}" + Environment.NewLine));
+                $"Vehicle type:  {Vehicletype}" + Environment.NewLine +
+                $"License number: {LicenseNumber} " + Environment.NewLine + 
+                $"Color: {Color}" + Environment.NewLine +
+                $"Size as number of parking spaces it requires: {Size}" + Environment.NewLine +
+                $"Number of wheels: {NumberOfWheels}" + Environment.NewLine));
             if (_additionalProperties is not null)
             {
                 for (int i = 0; i < _additionalProperties.Length; i++)

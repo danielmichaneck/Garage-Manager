@@ -117,10 +117,89 @@ namespace Garage_Manager
                                         Environment.NewLine);
         }
 
+        private IEnumerable<IVehicle> SelectByVehicleType(IEnumerable<IVehicle> vehicles)
+        {
+            int repeats = 0;
+            do
+            {
+                _userInterface.PrintMessage(Message.SpecificVehicleEnterProperty("vehicle type"));
+                int i = 1;
+                foreach (VehicleType vehicleType in IVehicle.VehicleTypes)
+                {
+                    _userInterface.PrintMessage($"{i}. {IVehicle.VehicleTypes[i - 1]})" + Environment.NewLine);
+                    i++;
+                }
+                _userInterface.PrintMessage(Environment.NewLine);
+                int input = _userInterface.GetValidInt();
+                if (input > 0 && input <= IVehicle.VehicleTypes.Count())
+                    return vehicles.Where(vehicle => vehicle.GetVehicleInformation().Vehicletype == IVehicle.VehicleTypes[input - 1])
+                                   .Select(v => v);
+                else if (input == 0) return vehicles;
+                repeats++;
+            } while (repeats < 100);
+            throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
+        }
+
+        private IEnumerable<IVehicle> SelectByColor(IEnumerable<IVehicle> vehicles)
+        {
+            int repeats = 0;
+            Color color;
+            do
+            {
+                _userInterface.PrintMessage(Message.SpecificVehicleEnterProperty("color"));
+                _userInterface.PrintMessage(Environment.NewLine);
+                string input = _userInterface.GetValidInput();
+                color = Color.FromName(input);
+                if (color.IsKnownColor)
+                {
+                    return vehicles.Where(vehicle => vehicle.GetVehicleInformation().Color == color)
+                                   .Select(v => v);
+                }
+                else if (input == "0") return vehicles;
+                repeats++;
+            } while (repeats < 100);
+            throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
+        }
+
+        private IEnumerable<IVehicle> SelectByInteger(IEnumerable<IVehicle> vehicles, string property)
+        {
+            int repeats = 0;
+            do
+            {
+                _userInterface.PrintMessage(Message.SpecificVehicleEnterProperty(property));
+                _userInterface.PrintMessage(Environment.NewLine);
+                int input = _userInterface.GetValidInt();
+                if (input > -1)
+                {
+                    _userInterface.PrintMessage(Message.SpecificVehicleEqualUpperOrLower(property));
+                    _userInterface.PrintMessage(Environment.NewLine);
+                    input = _userInterface.GetValidInt();
+                    switch(input)
+                    {
+                        case 1:
+                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().NumberOfWheels == input)
+                                           .Select(v => v);
+
+                        case 2:
+                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().NumberOfWheels <= input)
+                                           .Select(v => v);
+
+                        case 3:
+                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().NumberOfWheels >= input)
+                                           .Select(v => v);
+                    }
+                    _userInterface.PrintMessage(Message.InputNotValid);
+                }
+                else if (input == 0) return vehicles;
+                repeats++;
+            } while (repeats < 100);
+            throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
+        }
+
         private void ListSpecificVehiclesInAllGarages()
         {
             _userInterface.ClearOutput();
-            // Gets all vehicleList.
+            // Gets all vehicles.
             List<IVehicle> vehicleList = new List<IVehicle>();
             foreach (IGarage<IVehicle> garage in _handler.GetAllGarages())
             {
@@ -129,68 +208,40 @@ namespace Garage_Manager
             }
             var vehicles = vehicleList.Select(v => v);
             // Gets input.
-            bool answerAsBool;
-            string answerAsString;
-            _userInterface.PrintMessage(Message.SpecificVehicleByProperty("Vehicle Type"));
-            answerAsBool = _userInterface.GetValidBool();
-            if (answerAsBool)
+            bool loop = true;
+            do
             {
-                bool finished = false;
-                do
+                _userInterface.PrintMessage(Message.SpecificVehicleByProperty());
+                string input = _userInterface.GetValidInput();
+                switch (input)
                 {
-                    _userInterface.PrintMessage(Message.SpecificVehicleEnterProperty("Vehicle Type"));
-                    answerAsString = _userInterface.GetValidInput();
-                    VehicleType? vehicleType = IVehicle.GetVehicleType(answerAsString, _userInterface.CheckIfSameString);
-                    vehicles = vehicles.Where(vehicle => vehicle.GetVehicleInformation()._vehicletype == vehicleType)
-                                       .Select(v => v);
-                    _userInterface.PrintMessage(Message.SpecificVehicleAnotherProperty("Vehicle Type"));
-                    finished = !_userInterface.GetValidBool();
-                } while (!finished);
-            }
-            _userInterface.PrintMessage(Message.SpecificVehicleByProperty("Color"));
-            answerAsBool = _userInterface.GetValidBool();
-            if (answerAsBool)
-            {
-                bool finished = false;
-                do
-                {
-                    _userInterface.PrintMessage(Message.SpecificVehicleEnterProperty("Color"));
-                    answerAsString = _userInterface.GetValidInput();
-                    //ToDo: Reuse code from Handler class?
-                    Color color = Color.FromName(answerAsString);
-                    vehicles = vehicles.Where(vehicle => vehicle.GetVehicleInformation()._color == color)
-                                       .Select(v => v);
-                    _userInterface.PrintMessage(Message.SpecificVehicleAnotherProperty("Color"));
-                    finished = !_userInterface.GetValidBool();
-                } while (!finished);
-            }
+                    case "0":
+                        loop = false;
+                        break;
 
+                    case "1":
+                        vehicles = SelectByVehicleType(vehicles);
+                        break;
 
+                    case "2":
+                        vehicles = SelectByColor(vehicles);
+                        break;
+
+                    case "3":
+                        vehicles = SelectByInteger(vehicles, "size as number of parking spots");
+                        break;
+
+                    case "4":
+                        vehicles = SelectByInteger(vehicles, "number of wheels");
+                        break;
+                }
+            } while (loop);
+            // Prints output
             _userInterface.ClearOutput();
-            foreach(IVehicle vehicle in vehicles)
+            foreach (IVehicle vehicle in vehicles)
             {
                 _userInterface.PrintMessage(vehicle.GetVehicleInformation().ToString() + Environment.NewLine);
             }
-
-
-
-
-
-
-
-
-
-            /*
-            StringBuilder result = new();
-            GarageList<IGarage<IVehicle>> garages = _handler.GetAllGarages();
-            foreach (var garage in garages)
-            {
-                var vehicleList = garage.Select(v => v);
-                foreach(IVehicle vehicle in vehicleList)
-                {
-                    result.Append(vehicle.GetVehicleInformation().ToString());
-                }
-            }*/
         }
 
         private void ReadFromFileStart()

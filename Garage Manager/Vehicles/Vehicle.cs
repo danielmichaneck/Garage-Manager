@@ -20,7 +20,8 @@ namespace Garage_Manager
                                       licenseNumber,
                                       color,
                                       size,
-                                      numberOfWheels);
+                                      numberOfWheels,
+                                      FuelType.Gasoline);
         }
 
         VehicleInformation IVehicle.GetVehicleInformation()

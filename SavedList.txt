@@ -1,0 +1,26 @@
+New Garage
+4
+New Vehicle
+Car,CAR 123,Blue
+New Vehicle
+Car,BIL 456,Red
+New Garage
+1
+New Vehicle
+Cat,Car 003,321
+New Garage
+2
+New Vehicle
+Airplane,AIR 117,White
+New Vehicle
+Car,CAR 789,white
+New Garage
+10
+New Vehicle
+Motorcycle,VROOM 1,blue
+New Vehicle
+Trike,WOW 124,red
+New Vehicle
+Boat,SEA 950,red
+New Vehicle
+Bus,BUS 001,white

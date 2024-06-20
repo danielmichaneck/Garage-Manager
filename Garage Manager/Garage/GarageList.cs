@@ -41,6 +41,10 @@ namespace Garage_Manager
             }
         }
 
+        // Removes an element from the list by creating
+        // a new array and then writing all the information
+        // from the previous array into the new one but
+        // skipping the element that is to be removed.
         internal void Remove(int index)
         {
             if (index < _count)

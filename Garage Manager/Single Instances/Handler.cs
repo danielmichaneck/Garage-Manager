@@ -46,28 +46,16 @@ namespace Garage_Manager
             return _garages;
         }
 
+        public bool RemoveGarage(int index)
+        {
+            if (_garages.Get(index) is null) return false;
+            _garages.Remove(index);
+            return true;
+        }
+
         public int Count()
         {
             return _garages.Count;
-        }
-
-        // Creates a garage with a specific size and a number of vehicles in it.
-        public IGarage<IVehicle> CreateNewGarage(int size, IVehicle[] cars)
-        {
-            IGarage<IVehicle> newGarage = new Garage<IVehicle>(size);
-            for (int i = 0; i < cars.Length; i++)
-            {
-                newGarage.Add(cars[i]);
-            }
-            AddGarage(newGarage);
-            return newGarage;
-        }
-
-        // Creates an empty garage with a specific size.
-        public IGarage<IVehicle> CreateNewGarage(int size)
-        {
-            var newGarage = CreateNewGarage(size, []);
-            return newGarage;
         }
 
         // Lists the index of all garages and how many vehicles of each present
@@ -77,13 +65,13 @@ namespace Garage_Manager
             int index = 1;
             StringBuilder stringBuilder = new();
             int numberOfVehicleType;
-            foreach(IGarage<IVehicle> garage in _garages)
+            foreach (IGarage<IVehicle> garage in _garages)
             {
                 outputAction.Invoke($"Garage {index}");
-                foreach(VehicleType vehicleType in IVehicle.VehicleTypes)
+                foreach (VehicleType vehicleType in IVehicle.VehicleTypes)
                 {
                     numberOfVehicleType = 0;
-                    foreach(IVehicle vehicle in garage)
+                    foreach (IVehicle vehicle in garage)
                     {
                         if (vehicle.GetVehicleInformation().Vehicletype == vehicleType)
                             numberOfVehicleType++;
@@ -167,6 +155,25 @@ namespace Garage_Manager
                 listStringBuilder.Append(ListVehicleInformation(garage).Trim() + Environment.NewLine);
             }
             return listStringBuilder.ToString().Trim();
+        }
+
+        // Creates a garage with a specific size and a number of vehicles in it.
+        public IGarage<IVehicle> CreateNewGarage(int size, IVehicle[] cars)
+        {
+            IGarage<IVehicle> newGarage = new Garage<IVehicle>(size);
+            for (int i = 0; i < cars.Length; i++)
+            {
+                newGarage.Add(cars[i]);
+            }
+            AddGarage(newGarage);
+            return newGarage;
+        }
+
+        // Creates an empty garage with a specific size.
+        public IGarage<IVehicle> CreateNewGarage(int size)
+        {
+            var newGarage = CreateNewGarage(size, []);
+            return newGarage;
         }
 
         // Creates an instance of a vehicle from strings.

@@ -13,7 +13,7 @@ namespace Garage_Manager
         private int _rimSizeInInches;
 
         public Trike(string licensenumber, Color color, int numberOfSeats = 1, int numberOfGears = 5, int rimSizeInInches = 20) :
-            base(VehicleType.Trike, licensenumber, color, size: 1, numberOfWheels: 3, numberOfSeats: numberOfSeats, fuelType: FuelType.Gasoline)
+            base(VehicleType.Trike, licensenumber, color, size: 2, numberOfWheels: 3, numberOfSeats: numberOfSeats, fuelType: FuelType.Gasoline)
         {
             // Additional properties
             _numberOfGears = numberOfGears;

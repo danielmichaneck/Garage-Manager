@@ -21,7 +21,8 @@ namespace Garage_Manager
             "6. List specific vehicles in a single garage." + Environment.NewLine +
             "7. Add a new garage." + Environment.NewLine +
             "8. Access a specific garage to add or remove vehicles in it." + Environment.NewLine +
-            "9. Find a specific vehicle by its license number.";
+            "9. Remove a specific garage." + Environment.NewLine +
+            "10. Find a specific vehicle by its license number.";
         
         // File read
         public static string ReadSuccess => "The file \"SavedList\" was successfully found in the .exe directory.";
@@ -65,11 +66,15 @@ namespace Garage_Manager
 
         // Remove garage
         public static string RemoveGarage(int min, int max) => $"Please enter which garage ({min}-{max}) you wish to remove." + Environment.NewLine +
-                                                               $"Enter ";
-        
+                                                               $"Enter 0 to not remove any garages.";
+        public static string RemoveGarageAreYouSure(int index) => $"Are you sure you want to remove Garage {index}?";
+        public static string GarageWasRemoved => "The garage has been removed.";
+        public static string GarageWasNotRemoved => "The garage was not removed.";
+        public static string NoGarageWereRemoved => "No garages were removed.";
+
         // Create vehicle special
         public static string InputVehicleFuelType => "Please enter the fuel type of the vehicle.";
-        public static string InputVehicleSizeProperty => $"Please enter the number of parking spots the vehicle requires.";
+        public static string InputVehicleSizeProperty => $"Please enter the length of the vehicle in meters.";
         public static string InputVehicleIntegerProperty(string property) => $"Please enter the {property} of the vehicle.";
 
         // Add vehicle

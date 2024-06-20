@@ -90,6 +90,10 @@ namespace Garage_Manager
                     break;
 
                 case "9":
+                    RemoveGarage();
+                    break;
+
+                case "10":
                     FindVehicle();
                     break;
 
@@ -125,7 +129,6 @@ namespace Garage_Manager
             int numberOfGarages = CheckNumberOfGarages();
             if (numberOfGarages < 1)
             {
-                _userInterface.PrintMessage(Message.ListNoGarages);
                 return;
             }
             IGarage<IVehicle>? garage;
@@ -145,13 +148,12 @@ namespace Garage_Manager
             GarageMenu(index);
         }
 
-        // Accesses a specific garage with user input.
+        // Removes a specific garage with user input.
         private void RemoveGarage()
         {
             int numberOfGarages = CheckNumberOfGarages();
             if (numberOfGarages < 1)
             {
-                _userInterface.PrintMessage(Message.ListNoGarages);
                 return;
             }
             IGarage<IVehicle>? garage;
@@ -159,8 +161,14 @@ namespace Garage_Manager
             if (numberOfGarages == 1) garage = _handler.GetGarage(0)!;
             else
             {
-                _userInterface.PrintMessage(Message.ListSpecificGarage(1, numberOfGarages));
+                _userInterface.PrintMessage(Message.RemoveGarage(1, numberOfGarages));
                 index = _userInterface.GetValidInt();
+                if (index == 0)
+                {
+                    _userInterface.PrintMessage(Message.NoGarageWereRemoved);
+                    return;
+
+                }
                 garage = _handler.GetGarage(index - 1);
             }
             if (garage is null)
@@ -168,7 +176,15 @@ namespace Garage_Manager
                 _userInterface.PrintMessage(Message.ListSpecificGarageDoesNotExist);
                 return;
             }
-            GarageMenu(index);
+            _userInterface.PrintMessage(Message.RemoveGarageAreYouSure(index));
+            bool input = _userInterface.GetValidBool();
+            if (input)
+            {
+                if (_handler.RemoveGarage(index - 1))
+                    _userInterface.PrintMessage(Message.GarageWasRemoved);
+                else _userInterface.PrintMessage(Message.ListSpecificGarageDoesNotExist);
+            }
+            else _userInterface.PrintMessage(Message.GarageWasNotRemoved);
         }
 
         // Lists the available functionality for the garage
@@ -309,7 +325,11 @@ namespace Garage_Manager
         // in all garages.
         private void ListAllVehiclesInAllGarages()
         {
-            _userInterface.ClearOutput();
+            int numberOfGarages = CheckNumberOfGarages();
+            if (numberOfGarages < 1)
+            {
+                return;
+            }
             _userInterface.PrintMessage(Environment.NewLine +
                                         _handler.ListAllVehiclesInAllGarages() +
                                         Environment.NewLine);

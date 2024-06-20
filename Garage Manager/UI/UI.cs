@@ -7,6 +7,15 @@ using System.Threading.Tasks;
 
 namespace Garage_Manager
 {
+    /// <summary>
+    /// A user interface that can hold an outputmethod, inputmethod, and clearmethod.
+    /// Can get valid strings, ints, and bools.
+    /// Can compare two strings to see if they contain the same letters, whether
+    /// uppercase or lowercase.
+    /// 
+    /// The program will throw an Exception if a valid input has not been given
+    /// in 100 tries.
+    /// </summary>
     internal class UI : IUI
     {
         private Action<string> _outputMethod;

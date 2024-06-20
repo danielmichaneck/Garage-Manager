@@ -14,6 +14,10 @@ using System.Threading.Tasks;
 
 namespace Garage_Manager
 {
+    /// <summary>
+    /// A class that handles Garage instances and instancing of vehicles
+    /// to put in those garages.
+    /// </summary>
     internal class Handler : IHandler
     {
         private GarageList<IGarage<IVehicle>> _garages;
@@ -28,6 +32,26 @@ namespace Garage_Manager
             _garages.Add(garage);
         }
 
+        public IGarage<IVehicle>? GetGarage(int index)
+        {
+            if (_garages.Count > index && _garages.Get(index) != default)
+            {
+                return _garages.Get(index);
+            }
+            return default;
+        }
+
+        public GarageList<IGarage<IVehicle>> GetAllGarages()
+        {
+            return _garages;
+        }
+
+        public int Count()
+        {
+            return _garages.Count;
+        }
+
+        // Creates a garage with a specific size and a number of vehicles in it.
         public IGarage<IVehicle> CreateNewGarage(int size, IVehicle[] cars)
         {
             IGarage<IVehicle> newGarage = new Garage<IVehicle>(size);
@@ -39,12 +63,15 @@ namespace Garage_Manager
             return newGarage;
         }
 
+        // Creates an empty garage with a specific size.
         public IGarage<IVehicle> CreateNewGarage(int size)
         {
             var newGarage = CreateNewGarage(size, []);
             return newGarage;
         }
 
+        // Lists the index of all garages and how many vehicles of each present
+        // vehicle type is in that garage.
         public void ListAllGarages(Action<string> outputAction)
         {
             int index = 1;
@@ -75,6 +102,9 @@ namespace Garage_Manager
             }
         }
 
+        // Lists the index of a specific garage and how many vehicles of each present
+        // vehicle type is in that garage.
+
         // ToDo: Copy-paste from ListAllGarages, re-use code!
         public void ListGarage(int index, Action<string> outputAction)
         {
@@ -104,6 +134,7 @@ namespace Garage_Manager
             else outputAction.Invoke(stringBuilder.ToString() + Environment.NewLine);
         }
 
+        // Returns the vehicle information of all vehicles in a specific garage as a string.
         private string ListVehicleInformation(IGarage<IVehicle> garage)
         {
             StringBuilder listStringBuilder = new();
@@ -115,6 +146,7 @@ namespace Garage_Manager
             return listStringBuilder.ToString().Trim();
         }
 
+        // Returns the vehicle information of all vehicles in a specific garage as a string.
         public string ListAllVehiclesInGarage(int index)
         {
             IGarage<IVehicle>? garage = _garages.Get(index);
@@ -123,6 +155,7 @@ namespace Garage_Manager
             return ListVehicleInformation(garage);
         }
 
+        // Returns the vehicle information of all vehicles in all garages as a string.
         public string ListAllVehiclesInAllGarages()
         {
             StringBuilder listStringBuilder = new("");
@@ -136,25 +169,7 @@ namespace Garage_Manager
             return listStringBuilder.ToString().Trim();
         }
 
-        public IGarage<IVehicle>? GetGarage(int index)
-        {
-            if (_garages.Count > index && _garages.Get(index) != default)
-            {
-                return _garages.Get(index);
-            }
-            return default;
-        }
-
-        public GarageList<IGarage<IVehicle>> GetAllGarages()
-        {
-            return _garages;
-        }
-
-        public int Count()
-        {
-            return _garages.Count;
-        }
-
+        // Creates an instance of a vehicle from strings.
         public IVehicle? CreateVehicle(IVehicle[] currentVehicles,
                                        string vehicleTypeAsString,
                                        string licenseNumber,
@@ -173,6 +188,7 @@ namespace Garage_Manager
             return InstantiateVehicle((VehicleType)vehicleType, licenseNumber, (Color)color);
         }
 
+        // Creates an instance of a vehicle with user input.
         public IVehicle CreateVehicle(Action<string> outputAction,
                                       Func<string> inputFunc,
                                       Func<int> inputFuncInt,
@@ -187,6 +203,7 @@ namespace Garage_Manager
                                             compareStringsFunc);
         }
 
+        // Creates a new garage with a set size and the option to populate it.
         public void CreateGarage(Action<string> outputAction,
                                   Func<string> inputFunc,
                                   Func<int> inputFuncInt,
@@ -213,6 +230,7 @@ namespace Garage_Manager
             }
         }
 
+        // Populates the garage with vehicles.
         private int PopulateGarage(int size, Action<string> outputAction,
                                     Func<string> inputFunc,
                                     Func<int> inputFuncInt,
@@ -235,6 +253,8 @@ namespace Garage_Manager
             return numberOfVehicles;
         }
 
+        // Lets the user choose whether to specify only the basic properties
+        // or all properties of the vehicle.
         private IVehicle GetVehicleWithProperties(IVehicle[] vehicles,
                                                   Action<string> outputAction,
                                                   Func<string> inputFunc,
@@ -263,6 +283,7 @@ namespace Garage_Manager
             }
         }
 
+        // Lets the user set how many vehicles they want to populate the garage with.
         private int GetNumberOfVehicles(int size,
                                         Action<string> outputAction,
                                         Func<int> inputFuncInt)
@@ -281,6 +302,12 @@ namespace Garage_Manager
             return numberOfVehicles;
         }
 
+        // Accesses the additional properties which are stored as strings
+        // in the vehicle's VehicleInformation struct. It splits the string
+        // into the name of the property and the value itself. It then checks
+        // whether each value can be interpreted as an int, a bool, or a string
+        // and then accepts input to overwrite the default value and set new
+        // properties.
         private string[] GetAdditionalProperties(IVehicle vehicle,
                                                  Action<string> outputAction,
                                                  Func<string> inputFunc,
@@ -318,6 +345,9 @@ namespace Garage_Manager
             }
             return additionalProperties;
         }
+
+        // Creates a vehicle using all of the standard vehicle properties
+        // as well as any additional properties unique to that derived class.
 
         // ToDo: Copy-paste from the basic one!
         private IVehicle CreateVehicleWithAllProperties(IVehicle[] currentVehicles,
@@ -392,6 +422,7 @@ namespace Garage_Manager
             return InstantiateVehicle(vehicleType, licenseNumber, color);
         }
 
+        // Gets vehicle type from input.
         private VehicleType GetVehicleType(Action<string> outputAction,
                                             Func<string> inputFunc,
                                             Func<string, string, bool> compareStringsFunc)
@@ -410,6 +441,7 @@ namespace Garage_Manager
             throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
         }
 
+        // Gets a license number from input.
         private string GetLicenseNumber(IVehicle[] currentVehicles,
                                          Action<string> outputAction,
                                          Func<string> inputFunc,
@@ -431,6 +463,7 @@ namespace Garage_Manager
             return licenseNumber;
         }
 
+        // Gets color from a string.
         private Color? GetColor(string colorAsString)
         {
             Color color = Color.FromName(colorAsString);
@@ -438,6 +471,7 @@ namespace Garage_Manager
             return color;
         }
 
+        // Gets color from input.
         private Color GetColor(Action<string> outputAction,
                                 Func<string> inputFunc,
                                 Func<string, string, bool> compareStringsFunc)
@@ -455,6 +489,9 @@ namespace Garage_Manager
             return (Color)color!;
         }
 
+        // Checks that a license number is unique using both the values stored
+        // in all the vehicles in all the garages and the values in the
+        // vehicles currently being instanced.
         private bool CheckLicenseNumber(IVehicle[] currentVehicles,
                                         string licenseNumber,
                                         Func<string, string, bool> compareStringsFunc)
@@ -482,6 +519,7 @@ namespace Garage_Manager
             return true;
         }
 
+        // Gets the standard integer properties for a vehicle from input.
         private int[] GetRestOfProperties(Action<string> outputAction,
                                           Func<int> inputFuncInt)
         {
@@ -494,6 +532,8 @@ namespace Garage_Manager
             result[2] = inputFuncInt.Invoke();
             return result;
         }
+
+        // Gets fuel type from input.
 
         // ToDo: Reuse code from SelectByFuelType() in Manager!
         // This is copy-paste (without returning the vehicles)!
@@ -519,6 +559,8 @@ namespace Garage_Manager
             throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
         }
 
+        // Instantiates and returns a vehicle, with one overload depending on how
+        // many properties to add.
         private IVehicle InstantiateVehicle(VehicleType vehicleType,
                                             string licenseNumber,
                                             Color color)
@@ -596,6 +638,7 @@ namespace Garage_Manager
             }
         }
 
+        // Removes a vehicle from a garage.
         public bool RemoveVehicle(int index, string licenseNumber, Func<string, string, bool> compareStringsFunc)
         {
             IGarage<IVehicle>? garage = _garages.Get(index);

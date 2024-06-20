@@ -11,6 +11,12 @@ using System.Threading.Tasks;
 
 namespace Garage_Manager
 {
+    /// <summary>
+    /// Manager handles the basic functionality of the program
+    /// including menus. It has a reference to a user interface
+    /// for handling output and input as well as a reference
+    /// to a handler for handling the garages and vehicles.
+    /// </summary>
     internal class Manager
     {
         private IUI _userInterface;
@@ -38,6 +44,7 @@ namespace Garage_Manager
             } while (!_exit);
         }
 
+        // Lists the available functionality and accepts user input.
         private void MainMenu()
         {
             _userInterface.PrintMessage(Environment.NewLine + Message.Start + Environment.NewLine);
@@ -92,6 +99,8 @@ namespace Garage_Manager
             }
         }
 
+        // Checks the number of garages and prints messages depending on
+        // if there are none or only one.
         private int CheckNumberOfGarages()
         {
             _userInterface.ClearOutput();
@@ -110,6 +119,7 @@ namespace Garage_Manager
             return _handler.Count();
         }
 
+        // Accesses a specific garage with user input.
         private void AccessGarage()
         {
             int numberOfGarages = CheckNumberOfGarages();
@@ -135,6 +145,34 @@ namespace Garage_Manager
             GarageMenu(index);
         }
 
+        // Accesses a specific garage with user input.
+        private void RemoveGarage()
+        {
+            int numberOfGarages = CheckNumberOfGarages();
+            if (numberOfGarages < 1)
+            {
+                _userInterface.PrintMessage(Message.ListNoGarages);
+                return;
+            }
+            IGarage<IVehicle>? garage;
+            int index = 1;
+            if (numberOfGarages == 1) garage = _handler.GetGarage(0)!;
+            else
+            {
+                _userInterface.PrintMessage(Message.ListSpecificGarage(1, numberOfGarages));
+                index = _userInterface.GetValidInt();
+                garage = _handler.GetGarage(index - 1);
+            }
+            if (garage is null)
+            {
+                _userInterface.PrintMessage(Message.ListSpecificGarageDoesNotExist);
+                return;
+            }
+            GarageMenu(index);
+        }
+
+        // Lists the available functionality for the garage
+        // and accepts user input.
         private void GarageMenu(int index)
         {
             bool loop = true;
@@ -170,6 +208,7 @@ namespace Garage_Manager
             } while (loop);
         }
 
+        // Finds a specific vehicle by its unique license number.
         private void FindVehicle()
         {
             if (CheckNumberOfGarages() > 0)
@@ -205,11 +244,13 @@ namespace Garage_Manager
             return null;
         }
 
+        // Lists all garages and the frequency of vehicle types in them.
         private void ListAllGarages()
         {
             _handler.ListAllGarages(_userInterface.PrintMessage);
         }
 
+        // Creates a new garage.
         private void CreateNewGarage()
         {
             _userInterface.ClearOutput();
@@ -220,6 +261,7 @@ namespace Garage_Manager
                                   _userInterface.CheckIfSameString);
         }
 
+        // Creates a new vehicle and adds it to a garage.
         private void CreateNewVehicle(int? index = null)
         {
             _userInterface.ClearOutput();
@@ -251,6 +293,7 @@ namespace Garage_Manager
             }
         }
 
+        // Removes a vehicle from a garage.
         private void RemoveVehicle(int index)
         {
             _userInterface.PrintMessage(Message.RemoveVehicle);
@@ -262,6 +305,8 @@ namespace Garage_Manager
             else _userInterface.PrintMessage(Message.VehicleRemoveFailed(input));
         }
 
+        // Lists vehicle information for all vehicles
+        // in all garages.
         private void ListAllVehiclesInAllGarages()
         {
             _userInterface.ClearOutput();
@@ -270,6 +315,8 @@ namespace Garage_Manager
                                         Environment.NewLine);
         }
 
+        // Lists all vehicle information for all vehicles
+        // in a specific garage.
         private void ListSpecificGarage()
         {
             _userInterface.ClearOutput();
@@ -299,6 +346,8 @@ namespace Garage_Manager
                                         Environment.NewLine);
         }
 
+        // Lists all vehicles in all garages meeting certain criteria
+        // based on the vehicle's properties and defined by the user.
         private void ListSpecificVehiclesInAllGarages()
         {
             _userInterface.ClearOutput();
@@ -317,6 +366,9 @@ namespace Garage_Manager
             var vehicles = vehicleList.Select(v => v);
             ListSpecificVehiclesInGarage(vehicles);
         }
+
+        // Lists all vehicles in a specific garage meeting certain criteria
+        // based on the vehicle's properties and defined by the user.
 
         // ToDo: Shares a lot of copy-paste code with ListSpecificGarage(), fix?
         private void ListSpecificVehiclesInSpecificGarage()
@@ -352,6 +404,10 @@ namespace Garage_Manager
             ListSpecificVehiclesInGarage(vehicles);
         }
 
+        // The main method for the selection process. It presents options for
+        // how to select certain vehicles based on different properties and calls
+        // the appropriate methods. It loops until the user is done with their
+        // selections and then displays the vehicles matching the criteria.
         private void ListSpecificVehiclesInGarage(IEnumerable<IVehicle> vehicles)
         {
             // Loops through input and selection.
@@ -513,6 +569,14 @@ namespace Garage_Manager
             throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);
         }
 
+        // Reads from a file at the same location as the .exe-file.
+        // The file must be named "SavedList.txt".
+        // The file can contain a number of garages and their sizes
+        // as well as the vehicles stored in those garages.
+        // Only basic vehicle properties such as the license number
+        // and color are currently supported.
+        // An example of the syntax in the file is found at the bottom
+        // of this file as a comment.
         private void ReadFromFileStart()
         {
             _userInterface.ClearOutput();
@@ -550,6 +614,9 @@ namespace Garage_Manager
             return false;
         }
 
+        // The user chooses whether to add the contents of the file to
+        // the memory. Currently there is no way to replace what is already
+        // in memory or to write information to the file.
         private void AddContentsFromFile()
         {
             // Setting up garages.
@@ -598,3 +665,42 @@ namespace Garage_Manager
         }
     }
 }
+
+/*
+New Garage creates a new garage and the following line is its size.
+New Vehicle creates a new vehicle and the following line is its basic properties.
+Vehicles are added to the previously created Garage.
+
+The text below will generate 4 garages with 8 vehicles in them in total.
+
+The second garage, with a size of 1, will be empty because the vehicle in it
+has a vehicle type that is not recognized by the program. It will therefore not
+be created and added to the garage.
+
+New Garage
+4
+New Vehicle
+Car,CAR 123,Blue
+New Vehicle
+Car,BIL 456,Red
+New Garage
+1
+New Vehicle
+Cat,Car 003,321
+New Garage
+2
+New Vehicle
+Airplane,AIR 117,White
+New Vehicle
+Car,CAR 789,white
+New Garage
+10
+New Vehicle
+Motorcycle,VROOM 1,blue
+New Vehicle
+Trike,WOW 124,red
+New Vehicle
+Boat,SEA 950,red
+New Vehicle
+Bus,BUS 001,white
+*/

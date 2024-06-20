@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace Garage_Manager
 {
+    /// <summary>
+    /// IEnumerable<T> that stores elements in an array.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     internal class Garage<T> : IGarage<T> where T : IVehicle
     {
         private T[] _list;

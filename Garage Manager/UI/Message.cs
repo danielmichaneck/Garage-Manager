@@ -63,6 +63,10 @@ namespace Garage_Manager
         public static string VehicleRemoved(string licenseNumber) => $"The vehicle with license number {licenseNumber} has been removed from the garage.";
         public static string VehicleRemoveFailed(string licenseNumber) => $"No vehicle with the license number {licenseNumber} was found in this garage.";
 
+        // Remove garage
+        public static string RemoveGarage(int min, int max) => $"Please enter which garage ({min}-{max}) you wish to remove." + Environment.NewLine +
+                                                               $"Enter ";
+        
         // Create vehicle special
         public static string InputVehicleFuelType => "Please enter the fuel type of the vehicle.";
         public static string InputVehicleSizeProperty => $"Please enter the number of parking spots the vehicle requires.";

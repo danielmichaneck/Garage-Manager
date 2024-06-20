@@ -461,6 +461,10 @@ namespace Garage_Manager
                     case "5":
                         vehicles = SelectByFuelType(vehicles);
                         break;
+
+                    default:
+                        _userInterface.PrintMessage(Message.InputNotValid);
+                        break;
                 }
             } while (loop);
             // Prints output
@@ -520,47 +524,56 @@ namespace Garage_Manager
             int repeats = 0;
             do
             {
-                _userInterface.PrintMessage(Message.SpecificVehicleEnterProperty(property));
+                _userInterface.PrintMessage(Message.SpecificVehicleEnterIntegerPropertyExit(property));
+                bool continueChoice = _userInterface.GetValidBool();
+                if (!continueChoice) return vehicles;
+                _userInterface.PrintMessage(Message.SpecificVehicleEnterIntegerProperty(property));
                 _userInterface.PrintMessage(Environment.NewLine);
-                int input = _userInterface.GetValidInt();
-                if (input > -1)
+                int inputInteger = _userInterface.GetValidInt();
+                if (inputInteger > -1)
                 {
+                    _userInterface.PrintMessage(Message.SpecificVehicleEnterIntegerPropertyExit(property));
+                    continueChoice = _userInterface.GetValidBool();
+                    if (!continueChoice) return vehicles;
                     _userInterface.PrintMessage(Message.SpecificVehicleEqualUpperOrLower(property));
                     _userInterface.PrintMessage(Environment.NewLine);
-                    input = _userInterface.GetValidInt();
+                    int inputChoice = _userInterface.GetValidInt();
                     // ToDo: Last-minute solution! Was trying to reduce unnecessary code...
                     if (property == "number of wheels")
-                    switch (input)
+                    switch (inputChoice)
                     {
                         case 1:
-                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().NumberOfWheels == input)
+                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().NumberOfWheels == inputInteger)
                                            .Select(v => v);
 
                         case 2:
-                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().NumberOfWheels <= input)
+                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().NumberOfWheels <= inputInteger)
                                            .Select(v => v);
 
                         case 3:
-                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().NumberOfWheels >= input)
+                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().NumberOfWheels >= inputInteger)
                                            .Select(v => v);
                     }
-                    else switch (input)
+                    else switch (inputChoice)
                     {
                         case 1:
-                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().Size == input)
+                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().Size == inputInteger)
                                            .Select(v => v);
 
                         case 2:
-                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().Size <= input)
+                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().Size <= inputInteger)
                                            .Select(v => v);
 
                         case 3:
-                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().Size >= input)
+                            return vehicles.Where(vehicle => vehicle.GetVehicleInformation().Size >= inputInteger)
                                            .Select(v => v);
-                        }
+
+                        case 4:
+                            return vehicles;
+                    }
                     _userInterface.PrintMessage(Message.InputNotValid);
                 }
-                else if (input == 0) return vehicles;
+                _userInterface.PrintMessage(Message.InputNotValid);
                 repeats++;
             } while (repeats < 100);
             throw new InvalidOperationException(Message.ErrorNoValidInputIn100Tries);

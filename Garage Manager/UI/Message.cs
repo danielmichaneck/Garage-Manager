@@ -109,8 +109,10 @@ namespace Garage_Manager
                                                             "3. Length in meters." + Environment.NewLine +
                                                             "4. Number of wheels." + Environment.NewLine +
                                                             "5. Fuel type." + Environment.NewLine;
-        public static string SpecificVehicleEnterProperty(string property) => $"Which {property} would you like to select by?" + Environment.NewLine +
+        public static string SpecificVehicleEnterProperty(string property) => $"Which value of {property} would you like to select by?" + Environment.NewLine +
                                                                                "Enter 0 to return to the previous menu without making a selection." + Environment.NewLine;
+        public static string SpecificVehicleEnterIntegerProperty(string property) => $"Which value of {property} would you like to select by?" + Environment.NewLine;
+        public static string SpecificVehicleEnterIntegerPropertyExit(string property) => $"Would you like to continue with selecing a value for {property}?" + Environment.NewLine;
         public static string SpecificVehicleEqualUpperOrLower(string property) => $"Would you like to include vehicles with {property} equal to your input," + Environment.NewLine +
                                                                                    "lower than your input, or higher than your input?" + Environment.NewLine +
                                                                                    "1. Equal." + Environment.NewLine +
